@@ -1,6 +1,6 @@
 
 library(tidyverse)
-library(statcheck)
+library(statcheck) 
 
 # load PLOS articles --------------------------------------------------------------
 plos_archaeology_data_statcheck <- readRDS("data/plos_archaeology_data.rds")
