@@ -1,8 +1,13 @@
 ---
 title: "Effective Archaeological Science: How can we best communicate our quantitative research to help others?"
 author: "Ben Marwick"
-format: revealjs
+format: 
+  revealjs:
+    theme: 
+    - default 
+    - custom.scss
 editor: visual
+
 ---
 
 ## Outline
