@@ -24,7 +24,7 @@ class(plos_statcheck_results_tbl) <- c("statcheck", "data.frame")
 plot(plos_statcheck_results_tbl, APAstyle = TRUE)
 
 # load JAS articles -------------------------------------------------------------
-full_text_jas_statcheck <- readRDS("data/full_text_jas.rds")
+full_text_jas_statcheck <- readRDS("analysis/data/full_text_jas.rds")
 
 # run statcheck
 jas_statcheck_results <- 

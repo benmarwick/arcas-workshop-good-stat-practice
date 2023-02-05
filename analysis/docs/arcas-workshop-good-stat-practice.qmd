@@ -1,0 +1,368 @@
+---
+title: "Effective Archaeological Science: How can we best communicate our quantitative research to help others?"
+author: "Ben Marwick"
+format: revealjs
+editor: visual
+---
+
+## Outline
+
+::: {.incremental}
+
+-   Displaying data through effective visualization
+-   Sound reporting of statistical significance tests
+-   Research compendia for comprehensive communication
+
+:::
+
+---
+
+![](data-info-knowl-wisdom.png)
+
+
+::: footer
+Page, S. E. (2018). The model thinker: What you need to know to make data work for you. Basic Books.
+:::
+
+
+---
+
+## Displaying data through effective visualization
+
+::: {.incremental}
+
+-   Purge pie charts (from your work)
+-   Bar bar charts (for continuous data)
+-   Dots for data (operative overplotting)
+-   Lines link continuous data (not discrete)
+
+:::
+
+## Let's try to compare: what's the highest value in each pie, and what's the order of the categories in each pie
+
+::: {.panel-tabset}
+
+### Code
+
+```{r}
+#| echo: true
+#| results: false
+
+# code from here: https://www.data-to-viz.com/caveat/pie.html
+# Libraries
+library(tidyverse)
+library(hrbrthemes)
+library(viridis)
+library(patchwork)
+
+# create 3 data frame:
+data1 <- data.frame( name=letters[1:5], value=c(17,18,20,22,24) )
+data2 <- data.frame( name=letters[1:5], value=c(20,18,21,20,20) )
+data3 <- data.frame( name=letters[1:5], value=c(24,23,21,19,18) )
+
+# Plot
+plot_pie <- function(data, vec){
+  
+  ggplot(data, aes(x="", 
+                   y=value, 
+                   fill=name)) +
+    geom_bar(width = 1, stat = "identity") +
+   coord_polar("y", start=0, direction = -1) +
+    scale_fill_viridis(discrete = TRUE,  direction=-1) + 
+    geom_text(aes(y = vec, 
+                  label = rev(name), 
+                  size=4, 
+                  color=c( "white", rep("black", 4)))) +
+   scale_color_manual(values=c("black", "white")) +
+    theme_minimal() +
+    theme(
+      legend.position="none",
+      plot.title = element_text(size=14),
+      panel.grid = element_blank(),
+      axis.text = element_blank(),
+      axis.ticks = element_blank(),
+      legend.margin=unit(0, "null")
+    ) +
+    xlab("") +
+    ylab("")
+  
+}
+
+a <- plot_pie(data1, c(10,35,55,75,93))
+b <- plot_pie(data2, c(10,35,53,75,93))
+c <- plot_pie(data3, c(10,29,50,75,93))
+
+a + b + c
+
+ggsave("three_pies.png")
+```
+
+### Output
+
+![](three_pies.png)
+
+:::
+
+::: footer
+Displaying data through effective visualization: Purge pie charts (from your work)
+:::
+
+---
+
+## Now, let’s represent exactly the same data using a barplot:
+
+::: {.panel-tabset}
+
+### Code
+
+```{r}
+#| echo: true
+
+# code from here: https://www.data-to-viz.com/caveat/pie.html 
+# A function to make barplots
+plot_bar <- function(data){
+  ggplot(data, aes(x=name, y=value, fill=name)) +
+    geom_bar( stat = "identity") +
+    scale_fill_viridis(discrete = TRUE, direction=-1) + 
+    scale_color_manual(values=c("black", "white")) +
+    theme_ipsum() +
+    theme(
+      legend.position="none",
+      plot.title = element_text(size=14),
+      panel.grid = element_blank(),
+    ) +
+    ylim(0,25) +
+    xlab("") +
+    ylab("")
+}
+
+# Make 3 barplots
+a <- plot_bar(data1)
+b <- plot_bar(data2)
+c <- plot_bar(data3)
+
+```
+
+### Output
+
+```{r}
+# Put them together with patchwork
+a + b + c
+```
+
+::: 
+
+::: footer
+Displaying data through effective visualization: Purge pie charts (from your work)
+:::
+
+## Purge pie charts because...
+
+![](heer-and-bostock-2010.png)
+
+::: footer
+Heer, J., & Bostock, M. (2010, April). Crowdsourcing graphical perception: using mechanical turk to assess visualization design. In _Proceedings of the SIGCHI conference on human factors in computing systems_ (pp. 203-212).
+:::
+
+## Purge pie charts because...
+
+![](healy-ch-01-cleveland-task-types.png)
+
+::: footer
+Healy, Kieran. 2018. _Data Visualization: A Practical Introduction_. Princeton University Press. https://socviz.co/
+:::
+
+## Bar bar charts (for continuous data)
+
+::: {.panel-tabset}
+
+### Code
+
+
+```{r}
+#| echo: true
+
+library(tidyverse)
+library(ggbeeswarm)
+library(here)
+
+plot_data <- 
+list.files(path = "../data", 
+           full.names = TRUE,
+           pattern = "plot-data") %>% 
+  map(read_csv) %>% 
+    list_rbind(names_to = "id")  %>% 
+    mutate(x = as_factor(round(x, 0.1))) %>% 
+    mutate(id = case_when(
+      id == 1 ~ "bimodal",
+      id == 2 ~ "outlier",
+      id == 3 ~ "symmetric",
+      id == 4 ~ "unequal n",
+    ))
+
+plot_data_and_stats_dynamite <- 
+ggplot(plot_data) +
+  aes(x, y ) + 
+  stat_summary(fun.y = mean, 
+               geom = 'bar', 
+               fill = "grey40",
+               size = 6) +
+  stat_summary(fun.data = mean_cl_normal, 
+               geom = 'errorbar', 
+               colour = "grey40",
+               width = 0.3, 
+               size = 1.1)  +
+  facet_wrap( ~ id, nrow = 1) +
+  theme_minimal()
+
+# statistical text
+plot_data_stat_test <- 
+  plot_data %>% 
+  nest(data = -id) %>% 
+  mutate(t_test = map(data, ~t.test(y ~ x, .x) %>% 
+                        broom::tidy() 
+  )) %>% 
+  unnest(t_test)
+
+# join stat test to data to show on plots
+plot_data_and_stats <- 
+left_join(plot_data,
+          plot_data_stat_test) %>% 
+  mutate(id1 = paste0(id, " (p = ", round(p.value, 3), ")"))
+
+# plot
+plot_data_and_stats_beeswarm <- 
+ggplot(plot_data_and_stats) +
+  aes(x, 
+      y) +
+  geom_beeswarm(cex = 10,
+                size = 3,
+                alpha = 0.4) +
+  facet_wrap( ~ id1, nrow = 1) +
+  theme_minimal()
+```
+
+### Output
+
+```{r}
+library(cowplot)
+plot_grid(plot_data_and_stats_dynamite,
+          plot_data_and_stats_beeswarm,
+          nrow = 2)
+```
+
+::: 
+
+::: footer
+Displaying data through effective visualization: Bar bar charts (for continuous data)
+:::
+
+## Another example
+
+::: {.panel-tabset}
+
+### Code
+
+
+```{r}
+#| echo: true
+# from https://jimgrange.wordpress.com/2016/06/15/solution-to-barbarplots-in-r/
+	
+#------------------------------------------------------------------------------
+# load required packages
+library(ggplot2)
+library(dplyr)
+ 
+#--- Generate artificial data
+ 
+# set random seed so example is reproducible
+set.seed(100)
+ 
+# generate condition A
+condition <- rep("A", 100)
+dv_A <- rnorm(100, 200, 60)
+condition_A <- data.frame(condition, dv = dv_A)
+ 
+# generate condition B
+condition <- rep("B", 100)
+dv_B <- c(rnorm(50, 130, 10), rnorm(50, 270, 10))
+condition_B <- data.frame(condition, dv = dv_B)
+ 
+# put all in one data frame
+raw_data <- rbind(condition_A, condition_B)
+ 
+# calculate sumary statistics
+data_summary <- raw_data %>%
+  group_by(condition) %>%
+  summarise(mean = mean(dv), 
+            median = median(dv),
+            se = (sd(dv)) / sqrt(length(dv)))
+#------------------------------------------------------------------------------
+ 
+ 
+#------------------------------------------------------------------------------
+#--- Do the "combined" bar plot
+p2 <- ggplot()
+ 
+# first draw the bar plot
+p2 <- p2 + geom_bar(data = data_summary,
+                    aes(y = mean,
+                        x = condition), 
+                    fill = "grey40",
+                    stat="identity", 
+                    width=0.4)
+ 
+# draw the error bars on the plot
+p2 <- p2 + geom_errorbar(data = data_summary,
+                         aes(y = mean, 
+                             x = condition,
+                             ymin = mean - se,
+                             ymax = mean + se), 
+                         stat = "identity",
+                         colour = "grey40",
+                         width = 0.1, linewidth = 1)
+ 
+# now draw the points on the plot
+p2 <- p2 + geom_point(data = raw_data, 
+                      aes(y = dv, x = condition),
+                      size = 4, 
+                      alpha = 0.3,
+                      position = position_jitter(width = 0.3, height = 0.1))
+ 
+# scale and rename the axes, and make font size a bit bigger
+p2 <- p2 + coord_cartesian(ylim = c(50, 400))
+p2 <- p2 + scale_x_discrete(name = "Category") +
+  scale_y_continuous(name = "Exciting variable")
+ 
+p2 <- p2  +
+  theme_minimal(base_size = 16)
+ 
+```
+
+### Output
+
+```{r}
+# view the plot
+p2
+
+```
+
+:::
+
+::: footer
+Displaying data through effective visualization: Bar bar charts (for continuous data)
+:::
+
+## Bar bar charts because...
+
+::: {.incremental}
+
+- They hide the real distribution of data
+- They hide the sample size
+- Many different data distributions lead to the same bar
+
+:::
+
+::: footer
+Displaying data through effective visualization: Bar bar charts (for continuous data)
+:::

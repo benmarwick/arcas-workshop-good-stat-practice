@@ -1,114 +1,3 @@
-library(tidyverse)
-
-#-----------------------------------------------------------------------
-# get 1000 archaeology articles from PLOS ------------------------------
-
-library(rplos)
-
-# scale up
-
-# get DOIs for articles
-plos_archaeology <- searchplos(q='everything:"archaeology"', 
-                                       fl=c('title', 'id', 'accepted_date'), 
-                                       fq='doc_type:full',
-                               limit = 1000)
-
-# get full text of articles at those DOIs, this takes a long time
-
-plos_archaeology_urls <- 
-  plos_archaeology$data %>% 
-  mutate(url = str_c("http://doi.org/", id)) 
-
-plos_archaeology$data$full_text <- vector("list", length = nrow(plos_archaeology_urls))
-
-# do it 'safely' so if one URL gives an error it doesn't stop the entire sequence
-get_and_squish <- 
-  function(x) {
-    x %>% read_html %>% 
-    html_text %>% 
-    str_squish
-    }
-
-get_and_squish_safely <- safely(get_and_squish)
-
-# loop over all the URLs to get the full text of all the URLs, this takes a very long time
-
-for(i in 1:nrow(plos_archaeology_urls)){
-  
-  plos_archaeology$data$full_text[[i]] <- 
-    plos_archaeology_urls$url[i]  %>% 
-    get_and_squish_safely()
-  
-  # observe the progress
-  print(i)
-
-}
-
-
-# get p-values from the full text of these articles, takes a minute
-plos_archaeology_full_text_ps <- 
-  plos_archaeology$data %>% 
-  mutate(ps = map(full_text, ~unlist(str_extract_all(.x, "p = .{6}|p < .{6}|p > .{6}")))) %>% 
-  unnest(ps) 
-
-# save this so we don't have to scrape again
-saveRDS(plos_archaeology_full_text_ps,
-        "data/plos_archaeology_data.rds")
-
-# load it
-plos_archaeology_data <- readRDS("data/plos_archaeology_data.rds")
-
-# take a look at how tests are reported by grabbing the text immediately before the
-# p-values
-plos_archaeology_full_text_ps_test_reporting <- 
-plos_archaeology_data %>% 
-  mutate(test_reports = map(full_text, ~unlist(str_extract_all(.x, ".{0,50}p = |.{0,50}p < |.{0,50}p > ")))) %>% 
-  unnest(test_reports)  %>% 
-  select(-full_text)
-
-# types of tests used
-# χ2 = ,  chi-square = , X2 = 
-# F =
-# Shapiro-Wilk test W = , Shapiro-Wilk test W =
-# t-test, t = , (t[ , (t( , t-value
-# Kruskal-Wallis test H =, Kruskal Wallis chi2 , K-W χ2
-# R = , r2 =
-# Mann-Whitney U = , Mann-Whitney Rank Sum Test (U = 
-# Wilcoxon rank sum test (W =
-# ρ = , 
-# Spearman’s rho = , rho = , Spearman's r =
-# one-way ANOVA (F(
-# ANCOVA
-# Z = , z =
-# A =
-# D =
-# Pearson's r , Pearson Chi2 
-# Fisher’s Exact Test
-# MI =
-# Kolmogorov-Smirnov test (K-S)
-# TOT
-# T-test
-
-# clean the p-values and treat inqualitites
-plos_archaeology_full_text_ps_clean <- 
-  plos_archaeology_full_text_ps %>% 
-  mutate(p_value = case_when(
-    str_detect(ps, "e")       ~  0.00001,
-    str_detect(ps, "<0.0001") ~  0.00005,
-    str_detect(ps, "< 0.0001") ~ 0.00005,
-    str_detect(ps, "<0.001") ~   0.0005,
-    str_detect(ps, "< 0.001") ~  0.0005,
-    str_detect(ps, "< 0.05") ~   0.025,
-    str_detect(ps, "<0.05") ~    0.025,
-    str_detect(ps, "< 0.01") ~   0.005,
-    str_detect(ps, "<0.01") ~    0.005,
-    TRUE ~ parse_number(ps)
-    )) 
-
-# take a look and browse the table
-plos_archaeology_full_text_ps_lite <- 
-  plos_archaeology_full_text_ps_clean %>% 
-  select(-full_text)
 
 # how many p-values per paper?
 p_values_per_paper <- 
@@ -134,7 +23,7 @@ median_number_p_values <- median(p_values_per_paper$n)
   plos_archaeology_full_text_ps_lite %>% 
     mutate(year = parse_number(str_sub(accepted_date, 1, 4))) %>% 
     group_by(year, id) %>% 
-    count() %>% View
+    count() %>% 
     ggplot() +
     aes(year, 
         n, 
@@ -161,6 +50,7 @@ ggplot(plos_archaeology_full_text_ps_clean) +
 p_values_zero_to_point_five_plot <- 
 ggplot(plos_archaeology_full_text_ps_clean) +
   aes(p_value) +
+  # stat_bin(geom="step", bins = 100) +
   geom_histogram(bins = 100) +
   geom_vline(xintercept = c(0.005, 0.01, 0.05), colour = "red") +
   annotate("text", x = 0.0575, y = 80, label = "p = 0.05", colour = "red") +
@@ -176,107 +66,6 @@ plot_grid(p_values_zero_to_one_plot,
           p_values_zero_to_point_five_plot, 
           ncol = 1)  
 
-#-----------------------------------------------------------------------
-# get 1000 archaeology articles from JAS ------------------------------
-
-#  This only works on campus or with VPN
-library(rscopus)
-options("elsevier_api_key" = "053e6f8f2c1abe6fcdc943ee66759e5e")
-have_api_key()
-
-# get a bunch of DOIs for J. Arch. Sci
-res = scopus_search(query = "ISSN(0305-4403)", 
-                    max_count = 5000,
-                    count = 25)
-df = gen_entries_to_df(res$entries)
-head(df$df)
-
-full_text_jas <- vector("list", length = nrow(df$df))
-
-library(httr)
-
-# get the full text for each DOI
-for(i in 1:nrow(df$df)){
-  
-the_doi <- 
-  paste0("https://api.elsevier.com/content/article/doi/",
-         df$df$`prism:doi`[i], 
-         "?APIKey=",
-         "053e6f8f2c1abe6fcdc943ee66759e5e",
-         "&httpAccept=text/plain")
-
-result <- GET(url = the_doi)
-
-full_text_jas[[i]] <- content(result)
-
-print(i)
-Sys.sleep(2)
-
-}
-
-ft_df <- 
-tibble(
-  doi = df$df$`prism:doi`,
-  full_text_jas = full_text_jas
-) 
-
-# save this so we don't have to scrape again
-saveRDS(ft_df,
-        "data/full_text_jas.rds")
-
-ft_df <- readRDS("data/full_text_jas.rds")
-
-# is everything ok in there?
-ft_df %>% 
-  mutate(nchars = map_int(full_text_jas, ~nchar(.x))) %>% 
-  ggplot() +
-  aes(nchars) +
-  geom_histogram()
-  
-
-
-ft_df_clean <- 
-  ft_df %>% 
-  filter(map_lgl(full_text_jas, ~ .x %>%
-                   is.character %>% 
-                   all)) %>% 
-  mutate(full_text_jas = map(full_text_jas, 
-                             ~str_squish(str_to_lower(.x)))) %>% 
-  mutate(ps = map(full_text_jas, 
-                  ~unlist(str_extract_all(.x,
-                                          "p *= .{6}|p *< .{6}|p *> .{6}"))))  %>% 
-  unnest(ps)
-
-# take a look at how tests are reported by grabbing the text immediately before the
-# p-values
-jas_archaeology_full_text_ps_test_reporting <- 
-  ft_df %>% 
-  mutate(test_reports = map(full_text_jas, ~unlist(str_extract_all(str_squish(.x), ".{50}p = .{50}|.{50}p < .{50}|.{50}p > .{50}")))) %>% 
-  unnest(test_reports)  %>% 
-  select(-full_text_jas)
-
-# clean the p-values and treat inqualitites
-ft_df_ps_clean <- 
-  ft_df_clean %>% 
-  mutate(p_value = case_when(
-    str_detect(ps, "e")       ~  0.00001,
-    str_detect(ps, "<0.0001") ~  0.00005,
-    str_detect(ps, "< 0.0001") ~ 0.00005,
-    str_detect(ps, "<0.001") ~   0.0005,
-    str_detect(ps, "< 0.001") ~  0.0005,
-    str_detect(ps, "< 0.05") ~   0.025,
-    str_detect(ps, "<0.05") ~    0.025,
-    str_detect(ps, "< 0.01") ~   0.005,
-    str_detect(ps, "<0.01") ~    0.005,
-    TRUE ~ parse_number(ps)
-  ))  %>% 
-  select(-full_text_jas)
-
-# how many p-values per paper?
-p_values_per_paper <- 
-  ft_df_ps_clean %>% 
-  count(doi) 
-
 median_number_p_values <- median(p_values_per_paper$n)
 
 ggplot(p_values_per_paper) +
@@ -290,6 +79,35 @@ ggplot(p_values_per_paper) +
            colour = "red") +
   ylab("number of p-values in the text of the paper") +
   theme_minimal()
+
+# change over time
+plos_archaeology_full_text_ps_clean_group <- 
+plos_archaeology_full_text_ps_clean %>% 
+  mutate(year = parse_number(str_extract(accepted_date, "\\d{1,4}"))) %>% 
+  # group into 5 year 
+  mutate(five_years = cut(year,seq(2010, 2022, 3))) 
+
+ggplot(plos_archaeology_full_text_ps_clean_group) +
+  aes(five_years,
+      p_value  
+      ) +
+  geom_boxplot() +
+  geom_quasirandom(size = 2,
+                   alpha = 0.3) +
+  scale_y_continuous(limits = c(0, 0.1)) +
+  theme_minimal()
+
+plos_archaeology_full_text_ps_clean_group_anova <- 
+plos_archaeology_full_text_ps_clean_group %>% 
+  aov(p_value ~ five_years, data = .) 
+
+plos_archaeology_full_text_ps_clean_group_anova %>% 
+  broom::tidy()
+
+plos_archaeology_full_text_ps_clean_group_anova %>% 
+  TukeyHSD()
+
+# end of PLOS --------------------------------------------------------
 
 
 # how about change over time?
@@ -317,10 +135,14 @@ p_values_zero_to_one_plot <-
   aes(p_value) +
   geom_histogram(bins = 100) +
   geom_vline(xintercept = 0.05, colour = "red") +
-  annotate("text", x = 0.1, y = 500, label = "p = 0.05", colour = "red") +
+  annotate("text", 
+           x = 0.15, 
+           y = 500, 
+           label = "p = 0.05", 
+           colour = "red") +
   scale_x_continuous(limits = c(0, 1)) +
   ylim(0, 1000) +
-  theme_minimal()
+  theme_minimal(base_size = 14)
 
 p_values_zero_to_point_five_plot <- 
   ggplot(ft_df_ps_clean) +
@@ -490,7 +312,11 @@ p_values_zero_to_one_plot <-
   aes(p_value) +
   geom_histogram(bins = 100) +
   geom_vline(xintercept = 0.05, colour = "red") +
-  annotate("text", x = 0.1, y = 200, label = "p = 0.05", colour = "red") +
+  annotate("text", 
+           x = 0.15, 
+           y = 200, 
+           label = "p = 0.05", 
+           colour = "red") +
   scale_x_continuous(limits = c(0, 1)) +
   ylim(0, 600) +
   theme_minimal()
