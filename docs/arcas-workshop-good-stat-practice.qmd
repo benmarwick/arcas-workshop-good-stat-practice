@@ -7,46 +7,38 @@ format:
     - default 
     - custom.scss
 editor: visual
-
 ---
 
 ## Outline
 
-::: {.incremental}
-
+::: incremental
 -   Displaying data through effective visualization
 -   Sound reporting of statistical significance tests
 -   Research compendia for comprehensive communication
-
 :::
 
----
+------------------------------------------------------------------------
 
 ![](data-info-knowl-wisdom.png)
-
 
 ::: footer
 Page, S. E. (2018). The model thinker: What you need to know to make data work for you. Basic Books.
 :::
 
-
----
+------------------------------------------------------------------------
 
 ## Displaying data through effective visualization
 
-::: {.incremental}
-
+::: incremental
 -   Purge pie charts (from your work)
 -   Bar bar charts (for continuous data)
 -   Dots for data (operative overplotting)
 -   Lines link continuous data (not discrete)
-
 :::
 
 ## Let's try to compare: what's the highest value in each pie, and what's the order of the categories in each pie
 
-::: {.panel-tabset}
-
+::: panel-tabset
 ### Code
 
 ```{r}
@@ -105,19 +97,17 @@ ggsave("three_pies.png")
 ### Output
 
 ![](three_pies.png)
-
 :::
 
 ::: footer
 Displaying data through effective visualization: Purge pie charts (from your work)
 :::
 
----
+------------------------------------------------------------------------
 
-## Now, let’s represent exactly the same data using a barplot:
+## Now, let's represent exactly the same data using a barplot:
 
-::: {.panel-tabset}
-
+::: panel-tabset
 ### Code
 
 ```{r}
@@ -154,8 +144,7 @@ c <- plot_bar(data3)
 # Put them together with patchwork
 a + b + c
 ```
-
-::: 
+:::
 
 ::: footer
 Displaying data through effective visualization: Purge pie charts (from your work)
@@ -166,7 +155,7 @@ Displaying data through effective visualization: Purge pie charts (from your wor
 ![](heer-and-bostock-2010.png)
 
 ::: footer
-Heer, J., & Bostock, M. (2010, April). Crowdsourcing graphical perception: using mechanical turk to assess visualization design. In _Proceedings of the SIGCHI conference on human factors in computing systems_ (pp. 203-212).
+Heer, J., & Bostock, M. (2010, April). Crowdsourcing graphical perception: using mechanical turk to assess visualization design. In *Proceedings of the SIGCHI conference on human factors in computing systems* (pp. 203-212).
 :::
 
 ## Purge pie charts because...
@@ -174,15 +163,13 @@ Heer, J., & Bostock, M. (2010, April). Crowdsourcing graphical perception: using
 ![](healy-ch-01-cleveland-task-types.png)
 
 ::: footer
-Healy, Kieran. 2018. _Data Visualization: A Practical Introduction_. Princeton University Press. https://socviz.co/
+Healy, Kieran. 2018. *Data Visualization: A Practical Introduction*. Princeton University Press. https://socviz.co/
 :::
 
 ## Bar bar charts (for continuous data)
 
-::: {.panel-tabset}
-
+::: panel-tabset
 ### Code
-
 
 ```{r}
 #| echo: true
@@ -255,8 +242,7 @@ plot_grid(plot_data_and_stats_dynamite,
           plot_data_and_stats_beeswarm,
           nrow = 2)
 ```
-
-::: 
+:::
 
 ::: footer
 Displaying data through effective visualization: Bar bar charts (for continuous data)
@@ -264,10 +250,8 @@ Displaying data through effective visualization: Bar bar charts (for continuous 
 
 ## Another example
 
-::: {.panel-tabset}
-
+::: panel-tabset
 ### Code
-
 
 ```{r}
 #| echo: true
@@ -351,7 +335,6 @@ p2 <- p2  +
 p2
 
 ```
-
 :::
 
 ::: footer
@@ -360,12 +343,10 @@ Displaying data through effective visualization: Bar bar charts (for continuous 
 
 ## Bar bar charts because...
 
-::: {.incremental}
-
-- They hide the real distribution of data
-- They hide the sample size
-- Many different data distributions lead to the same bar
-
+::: incremental
+-   They hide the real distribution of data
+-   They hide the sample size
+-   Many different data distributions lead to the same bar
 :::
 
 ::: footer
