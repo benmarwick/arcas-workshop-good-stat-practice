@@ -1,6 +1,6 @@
 ---
 title: "Effective Archaeological Science: How can we best communicate our quantitative research to help others?"
-subtitle: Code and data online at https://github.com/benmarwick/arcas-workshop-good-stat-practice
+subtitle: Code and data online at [github.com/benmarwick/arcas-workshop-good-stat-practice](https://github.com/benmarwick/arcas-workshop-good-stat-practice])
 author: "Ben Marwick"
 format: 
   revealjs:
@@ -170,6 +170,7 @@ Healy, Kieran. 2018. *Data Visualization: A Practical Introduction*. Princeton U
 ## Bar bar charts (for continuous data)
 
 ::: panel-tabset
+
 ### Code
 
 ```{r}
@@ -232,6 +233,8 @@ ggplot(plot_data_and_stats) +
                 size = 3,
                 alpha = 0.4) +
   facet_wrap( ~ id1, nrow = 1) +
+  xlab("") +
+  ylab("") +
   theme_minimal(base_size = 14)
 ```
 
@@ -264,6 +267,7 @@ Displaying data through effective visualization: Bar bar charts (for continuous 
 ## Another example
 
 ::: panel-tabset
+
 ### Code
 
 ```{r}
@@ -337,7 +341,9 @@ p2 <- p2 + scale_x_discrete(name = "Category") +
   scale_y_continuous(name = "Exciting variable")
  
 p2 <- p2  +
-  theme_minimal(base_size = 16)
+  theme_minimal(base_size = 16) +
+    xlab("") +
+    ylab("") 
  
 ```
 
@@ -366,12 +372,12 @@ Displaying data through effective visualization: Bar bar charts (for continuous 
 Displaying data through effective visualization: Bar bar charts (for continuous data)
 :::
 
-
 ## Bar bar charts: what to do instead?
 
 ::: incremental
--   geom_quasirandom from the ggbeeswarm package
--   geom_sina from the ggforce package
+-   geom_quasirandom from the [ggbeeswarm](https://cran.r-project.org/web/packages/ggbeeswarm/vignettes/usageExamples.pdf) package
+-   geom_sina from the [ggforce](https://ggforce.data-imaginist.com/) package
+-   geom_pointgrid from the [ggpointgrid](https://github.com/nevrome/ggpointgrid) package
 -   geom_dotplot from the ggplot2 package
 :::
 
@@ -385,6 +391,7 @@ Displaying data through effective visualization: Bar bar charts (for continuous 
 ### Code
 
 ```{r}
+#| echo: true
 # How to make informative dot plots, box plots and violin plots in R
 # Nico Riedel, Robert Schulz, Tracey Weissgerber
 # OSF: https://osf.io/wx2dz/
@@ -399,13 +406,14 @@ data_4 = tibble(group = 'group d', data_col = rnorm(4, mean = 4, sd = 0.5))
 data <- rbind(data_1, data_2, data_3, data_4)
 data$group <- as_factor(data$group)
 
-#1. Box plot only
+# Box plot only
 box_plot_simple <- 
 ggplot(data, aes(x = group, y = data_col)) +
   geom_boxplot() +
-  theme_minimal(base_size = 16)
+  theme_minimal(base_size = 16) +
+  xlab("") +
+  ylab("") 
 ```
-
 
 ### Output
 
@@ -415,18 +423,22 @@ box_plot_simple
 
 :::
 
+
 ## This is a slight improvement
 
 ::: panel-tabset
 ### Code
 
 ```{r}
-#2. Box plot with unjittered dot plot
+#| echo: true
+# Box plot with unjittered dot plot
 box_plot_simple_points <- 
 ggplot(data, aes(x = group, y = data_col)) +
   geom_boxplot() +
   geom_point()  +
-  theme_minimal(base_size = 16)
+  theme_minimal(base_size = 16) +
+  xlab("") +
+  ylab("") 
 ```
 
 ### Output
@@ -447,12 +459,15 @@ Displaying data through effective visualization: Dots for data (operative overpl
 ### Code
 
 ```{r}
-#2. Box plot with unjittered dot plot
+#| echo: true
+# Box plot with beeswarm dot plot
 box_plot_simple_points_quasi <- 
 ggplot(data, aes(x = group, y = data_col)) +
   geom_boxplot() +
   ggbeeswarm::geom_quasirandom() +
-  theme_minimal(base_size = 16)
+  theme_minimal(base_size = 16) +
+  xlab("") +
+  ylab("") 
 ```
 
 ### Output
@@ -470,16 +485,20 @@ Displaying data through effective visualization: Dots for data (operative overpl
 ## This is very effective
 
 ::: panel-tabset
+
 ### Code
 
 ```{r}
-#2. Box plot with unjittered dot plot
+#| echo: true
+#  Box plot with beeswarm dot plot
 box_plot_simple_points_quasi_alpha <- 
 ggplot(data, aes(x = group, y = data_col)) +
   geom_boxplot(varwidth = TRUE, 
                outlier.shape = NA) +
   ggbeeswarm::geom_quasirandom(alpha = 0.2, size = 3) +
-  theme_minimal(base_size = 16)
+  theme_minimal(base_size = 16) +
+  xlab("") +
+  ylab("") 
 ```
 
 ### Output
@@ -493,5 +512,3 @@ box_plot_simple_points_quasi_alpha
 ::: footer
 Displaying data through effective visualization: Dots for data (operative overplotting)
 :::
-
-

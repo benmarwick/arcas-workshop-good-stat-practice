@@ -389,7 +389,7 @@
 
 <section id="title-slide" class="quarto-title-block center">
   <h1 class="title">Effective Archaeological Science: How can we best communicate our quantitative research to help others?</h1>
-  <p class="subtitle">Code and data online at https://github.com/benmarwick/arcas-workshop-good-stat-practice</p>
+  <p class="subtitle">Code and data online at <a href="https://github.com/benmarwick/arcas-workshop-good-stat-practice%5D">github.com/benmarwick/arcas-workshop-good-stat-practice</a></p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -617,7 +617,9 @@ Ben Marwick
 <span id="cb4-55"><a href="#cb4-55"></a>                <span class="at">size =</span> <span class="dv">3</span>,</span>
 <span id="cb4-56"><a href="#cb4-56"></a>                <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
 <span id="cb4-57"><a href="#cb4-57"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> id1, <span class="at">nrow =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb4-58"><a href="#cb4-58"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-58"><a href="#cb4-58"></a>  <span class="fu">xlab</span>(<span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb4-59"><a href="#cb4-59"></a>  <span class="fu">ylab</span>(<span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb4-60"><a href="#cb4-60"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-3-2">
@@ -716,7 +718,9 @@ Ben Marwick
 <span id="cb5-67"><a href="#cb5-67"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">name =</span> <span class="st">"Exciting variable"</span>)</span>
 <span id="cb5-68"><a href="#cb5-68"></a> </span>
 <span id="cb5-69"><a href="#cb5-69"></a>p2 <span class="ot">&lt;-</span> p2  <span class="sc">+</span></span>
-<span id="cb5-70"><a href="#cb5-70"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">16</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-70"><a href="#cb5-70"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">16</span>) <span class="sc">+</span></span>
+<span id="cb5-71"><a href="#cb5-71"></a>    <span class="fu">xlab</span>(<span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb5-72"><a href="#cb5-72"></a>    <span class="fu">ylab</span>(<span class="st">""</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-4-2">
@@ -749,8 +753,9 @@ Ben Marwick
 <h2>Bar bar charts: what to do instead?</h2>
 <div>
 <ul>
-<li class="fragment">geom_quasirandom from the ggbeeswarm package</li>
-<li class="fragment">geom_sina from the ggforce package</li>
+<li class="fragment">geom_quasirandom from the <a href="https://cran.r-project.org/web/packages/ggbeeswarm/vignettes/usageExamples.pdf">ggbeeswarm</a> package</li>
+<li class="fragment">geom_sina from the <a href="https://ggforce.data-imaginist.com/">ggforce</a> package</li>
+<li class="fragment">geom_pointgrid from the <a href="https://github.com/nevrome/ggpointgrid">ggpointgrid</a> package</li>
 <li class="fragment">geom_dotplot from the ggplot2 package</li>
 </ul>
 </div>
@@ -765,7 +770,27 @@ Ben Marwick
 <div class="tab-content">
 <div id="tabset-5-1">
 <div class="cell">
-
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># How to make informative dot plots, box plots and violin plots in R</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="co"># Nico Riedel, Robert Schulz, Tracey Weissgerber</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="co"># OSF: https://osf.io/wx2dz/</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="co">#dataset</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="fu">set.seed</span>(<span class="dv">5</span>)</span>
+<span id="cb6-7"><a href="#cb6-7"></a>data_1 <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">group =</span> <span class="st">'group a'</span>, <span class="at">data_col =</span> fGarch<span class="sc">::</span><span class="fu">rsnorm</span>(<span class="dv">50</span>, <span class="at">mean =</span> <span class="fl">3.5</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">xi =</span> <span class="dv">10</span>))</span>
+<span id="cb6-8"><a href="#cb6-8"></a>data_2 <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">group =</span> <span class="st">'group b'</span>, <span class="at">data_col =</span> <span class="fu">rnorm</span>(<span class="dv">15</span>, <span class="at">mean =</span> <span class="fl">4.5</span>, <span class="at">sd =</span> <span class="fl">1.0</span>))</span>
+<span id="cb6-9"><a href="#cb6-9"></a>data_3 <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">group =</span> <span class="st">'group c'</span>, <span class="at">data_col =</span> <span class="fu">rnorm</span>(<span class="dv">20</span>, <span class="at">mean =</span> <span class="fl">4.6</span>, <span class="at">sd =</span> <span class="fl">0.8</span>))</span>
+<span id="cb6-10"><a href="#cb6-10"></a>data_4 <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">group =</span> <span class="st">'group d'</span>, <span class="at">data_col =</span> <span class="fu">rnorm</span>(<span class="dv">4</span>, <span class="at">mean =</span> <span class="dv">4</span>, <span class="at">sd =</span> <span class="fl">0.5</span>))</span>
+<span id="cb6-11"><a href="#cb6-11"></a></span>
+<span id="cb6-12"><a href="#cb6-12"></a>data <span class="ot">&lt;-</span> <span class="fu">rbind</span>(data_1, data_2, data_3, data_4)</span>
+<span id="cb6-13"><a href="#cb6-13"></a>data<span class="sc">$</span>group <span class="ot">&lt;-</span> <span class="fu">as_factor</span>(data<span class="sc">$</span>group)</span>
+<span id="cb6-14"><a href="#cb6-14"></a></span>
+<span id="cb6-15"><a href="#cb6-15"></a><span class="co"># Box plot only</span></span>
+<span id="cb6-16"><a href="#cb6-16"></a>box_plot_simple <span class="ot">&lt;-</span> </span>
+<span id="cb6-17"><a href="#cb6-17"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> group, <span class="at">y =</span> data_col)) <span class="sc">+</span></span>
+<span id="cb6-18"><a href="#cb6-18"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb6-19"><a href="#cb6-19"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">16</span>) <span class="sc">+</span></span>
+<span id="cb6-20"><a href="#cb6-20"></a>  <span class="fu">xlab</span>(<span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb6-21"><a href="#cb6-21"></a>  <span class="fu">ylab</span>(<span class="st">""</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-5-2">
@@ -785,7 +810,14 @@ Ben Marwick
 <div class="tab-content">
 <div id="tabset-6-1">
 <div class="cell">
-
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># Box plot with unjittered dot plot</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a>box_plot_simple_points <span class="ot">&lt;-</span> </span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> group, <span class="at">y =</span> data_col)) <span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a>  <span class="fu">geom_point</span>()  <span class="sc">+</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">16</span>) <span class="sc">+</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a>  <span class="fu">xlab</span>(<span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a>  <span class="fu">ylab</span>(<span class="st">""</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-6-2">
@@ -808,7 +840,14 @@ Ben Marwick
 <div class="tab-content">
 <div id="tabset-7-1">
 <div class="cell">
-
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># Box plot with beeswarm dot plot</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a>box_plot_simple_points_quasi <span class="ot">&lt;-</span> </span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> group, <span class="at">y =</span> data_col)) <span class="sc">+</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb8-5"><a href="#cb8-5"></a>  ggbeeswarm<span class="sc">::</span><span class="fu">geom_quasirandom</span>() <span class="sc">+</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">16</span>) <span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7"></a>  <span class="fu">xlab</span>(<span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb8-8"><a href="#cb8-8"></a>  <span class="fu">ylab</span>(<span class="st">""</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-7-2">
@@ -831,7 +870,15 @@ Ben Marwick
 <div class="tab-content">
 <div id="tabset-8-1">
 <div class="cell">
-
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co">#  Box plot with beeswarm dot plot</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a>box_plot_simple_points_quasi_alpha <span class="ot">&lt;-</span> </span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> group, <span class="at">y =</span> data_col)) <span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4"></a>  <span class="fu">geom_boxplot</span>(<span class="at">varwidth =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb9-5"><a href="#cb9-5"></a>               <span class="at">outlier.shape =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb9-6"><a href="#cb9-6"></a>  ggbeeswarm<span class="sc">::</span><span class="fu">geom_quasirandom</span>(<span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">16</span>) <span class="sc">+</span></span>
+<span id="cb9-8"><a href="#cb9-8"></a>  <span class="fu">xlab</span>(<span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb9-9"><a href="#cb9-9"></a>  <span class="fu">ylab</span>(<span class="st">""</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-8-2">

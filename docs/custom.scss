@@ -10,3 +10,16 @@
   font-size: 8px !important;
   z-index: 2;
 }
+
+.reveal .panel-tabset [role=tab] {
+    padding: 0.01em 0.5em !important;
+    padding-top: 0.01em !important;
+    padding-right: 0.5em !important;
+    padding-bottom: 0.01em !important;
+    padding-left: 0.5em !important;
+}
+
+#title-slide .subtitle {
+    margin-bottom: 1.5rem !important;
+    font-size: 24px !important;
+}

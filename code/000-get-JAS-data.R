@@ -9,7 +9,7 @@ have_api_key()
 
 # get a bunch of DOIs for J. Arch. Sci
 res = scopus_search(query = "ISSN(0305-4403)", 
-                    max_count = 5000, # Total Entries are 6114
+                    max_count = 6000, # Total Entries are 6114
                     count = 25)
 df = gen_entries_to_df(res$entries)
 head(df$df)
