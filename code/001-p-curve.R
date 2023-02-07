@@ -1,7 +1,13 @@
 
+library(tidyverse)
+
+# import the PLOS p-values and metadata
+plos_archaeology_p_values_only <- 
+  read_csv("data/plos_archaeology_p_values_only.csv")
+
 # how many p-values per paper?
 p_values_per_paper <- 
-plos_archaeology_full_text_ps_lite %>% 
+  plos_archaeology_p_values_only %>% 
   count(id) 
 
 median_number_p_values <- median(p_values_per_paper$n)
@@ -20,7 +26,7 @@ median_number_p_values <- median(p_values_per_paper$n)
   
 # how about change over time?
   library(ggbeeswarm)
-  plos_archaeology_full_text_ps_lite %>% 
+  plos_archaeology_p_values_only %>% 
     mutate(year = parse_number(str_sub(accepted_date, 1, 4))) %>% 
     group_by(year, id) %>% 
     count() %>% 
@@ -38,7 +44,7 @@ median_number_p_values <- median(p_values_per_paper$n)
 
 # plot distribution
 p_values_zero_to_one_plot <- 
-ggplot(plos_archaeology_full_text_ps_clean) +
+ggplot(plos_archaeology_p_values_only) +
   aes(p_value) +
   geom_histogram(bins = 100) +
   geom_vline(xintercept = 0.05, colour = "red") +
@@ -48,7 +54,7 @@ ggplot(plos_archaeology_full_text_ps_clean) +
   theme_minimal()
 
 p_values_zero_to_point_five_plot <- 
-ggplot(plos_archaeology_full_text_ps_clean) +
+ggplot(plos_archaeology_p_values_only) +
   aes(p_value) +
   # stat_bin(geom="step", bins = 100) +
   geom_histogram(bins = 100) +
@@ -82,20 +88,24 @@ ggplot(p_values_per_paper) +
 
 # change over time
 plos_archaeology_full_text_ps_clean_group <- 
-plos_archaeology_full_text_ps_clean %>% 
+  plos_archaeology_p_values_only %>% 
   mutate(year = parse_number(str_extract(accepted_date, "\\d{1,4}"))) %>% 
   # group into 5 year 
-  mutate(five_years = cut(year,seq(2010, 2022, 3))) 
+  mutate(five_years = cut(year,seq(2010, 2022, 2))) 
 
-ggplot(plos_archaeology_full_text_ps_clean_group) +
+ggplot(plos_archaeology_full_text_ps_clean_group %>% 
+         filter( p_value > 0)) +
   aes(five_years,
       p_value  
       ) +
   geom_boxplot() +
   geom_quasirandom(size = 2,
-                   alpha = 0.3) +
-  scale_y_continuous(limits = c(0, 0.1)) +
-  theme_minimal()
+                   alpha = 0.2) +
+  scale_y_log10(labels = scales::label_comma(),
+                limits = c(0.00001, 1),
+                name = "p-values from PLOS One archaeology papers" )  +
+  theme_minimal() +
+  xlab("Year of publication")
 
 plos_archaeology_full_text_ps_clean_group_anova <- 
 plos_archaeology_full_text_ps_clean_group %>% 
@@ -105,7 +115,9 @@ plos_archaeology_full_text_ps_clean_group_anova %>%
   broom::tidy()
 
 plos_archaeology_full_text_ps_clean_group_anova %>% 
-  TukeyHSD()
+  TukeyHSD() %>% 
+  broom::tidy() %>% 
+  arrange(adj.p.value)
 
 # end of PLOS --------------------------------------------------------
 

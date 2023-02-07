@@ -389,6 +389,7 @@
 
 <section id="title-slide" class="quarto-title-block center">
   <h1 class="title">Effective Archaeological Science: How can we best communicate our quantitative research to help others?</h1>
+  <p class="subtitle">Code and data online at https://github.com/benmarwick/arcas-workshop-good-stat-practice</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -590,7 +591,7 @@ Ben Marwick
 <span id="cb4-29"><a href="#cb4-29"></a>               <span class="at">width =</span> <span class="fl">0.3</span>, </span>
 <span id="cb4-30"><a href="#cb4-30"></a>               <span class="at">size =</span> <span class="fl">1.1</span>)  <span class="sc">+</span></span>
 <span id="cb4-31"><a href="#cb4-31"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> id, <span class="at">nrow =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb4-32"><a href="#cb4-32"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb4-32"><a href="#cb4-32"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span>
 <span id="cb4-33"><a href="#cb4-33"></a></span>
 <span id="cb4-34"><a href="#cb4-34"></a><span class="co"># statistical text</span></span>
 <span id="cb4-35"><a href="#cb4-35"></a>plot_data_stat_test <span class="ot">&lt;-</span> </span>
@@ -616,7 +617,7 @@ Ben Marwick
 <span id="cb4-55"><a href="#cb4-55"></a>                <span class="at">size =</span> <span class="dv">3</span>,</span>
 <span id="cb4-56"><a href="#cb4-56"></a>                <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
 <span id="cb4-57"><a href="#cb4-57"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> id1, <span class="at">nrow =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb4-58"><a href="#cb4-58"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-58"><a href="#cb4-58"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-3-2">
@@ -632,6 +633,13 @@ Ben Marwick
 <p>Displaying data through effective visualization: Bar bar charts (for continuous data)</p>
 </div>
 </section>
+<section id="data-are-hidden-behind-bars" class="slide level2">
+<h2>Data are hidden behind bars</h2>
+
+<img data-src="arcas-workshop-good-stat-practice_files/figure-revealjs/unnamed-chunk-6-1.png" width="960" class="r-stretch"><div class="footer">
+<p>Displaying data through effective visualization: Bar bar charts (for continuous data)</p>
+</div>
+</section>
 <section id="another-example" class="slide level2">
 <h2>Another example</h2>
 <div class="panel-tabset">
@@ -641,7 +649,7 @@ Ben Marwick
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># from https://jimgrange.wordpress.com/2016/06/15/solution-to-barbarplots-in-r/</span></span>
 <span id="cb5-2"><a href="#cb5-2"></a>    </span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="co">#------------------------------------------------------------------------------</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="co">#-------------------------</span></span>
 <span id="cb5-4"><a href="#cb5-4"></a><span class="co"># load required packages</span></span>
 <span id="cb5-5"><a href="#cb5-5"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb5-6"><a href="#cb5-6"></a><span class="fu">library</span>(dplyr)</span>
@@ -670,10 +678,10 @@ Ben Marwick
 <span id="cb5-29"><a href="#cb5-29"></a>  <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(dv), </span>
 <span id="cb5-30"><a href="#cb5-30"></a>            <span class="at">median =</span> <span class="fu">median</span>(dv),</span>
 <span id="cb5-31"><a href="#cb5-31"></a>            <span class="at">se =</span> (<span class="fu">sd</span>(dv)) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(dv)))</span>
-<span id="cb5-32"><a href="#cb5-32"></a><span class="co">#------------------------------------------------------------------------------</span></span>
+<span id="cb5-32"><a href="#cb5-32"></a><span class="co">#-----------------</span></span>
 <span id="cb5-33"><a href="#cb5-33"></a> </span>
 <span id="cb5-34"><a href="#cb5-34"></a> </span>
-<span id="cb5-35"><a href="#cb5-35"></a><span class="co">#------------------------------------------------------------------------------</span></span>
+<span id="cb5-35"><a href="#cb5-35"></a><span class="co">#-----------------</span></span>
 <span id="cb5-36"><a href="#cb5-36"></a><span class="co">#--- Do the "combined" bar plot</span></span>
 <span id="cb5-37"><a href="#cb5-37"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>()</span>
 <span id="cb5-38"><a href="#cb5-38"></a> </span>
@@ -714,7 +722,7 @@ Ben Marwick
 <div id="tabset-4-2">
 <div class="cell">
 <div class="cell-output-display">
-<p><img data-src="arcas-workshop-good-stat-practice_files/figure-revealjs/unnamed-chunk-7-1.png" width="960"></p>
+<p><img data-src="arcas-workshop-good-stat-practice_files/figure-revealjs/unnamed-chunk-8-1.png" width="960"></p>
 </div>
 </div>
 </div>
@@ -735,6 +743,108 @@ Ben Marwick
 </div>
 <div class="footer">
 <p>Displaying data through effective visualization: Bar bar charts (for continuous data)</p>
+</div>
+</section>
+<section id="bar-bar-charts-what-to-do-instead" class="slide level2">
+<h2>Bar bar charts: what to do instead?</h2>
+<div>
+<ul>
+<li class="fragment">geom_quasirandom from the ggbeeswarm package</li>
+<li class="fragment">geom_sina from the ggforce package</li>
+<li class="fragment">geom_dotplot from the ggplot2 package</li>
+</ul>
+</div>
+<div class="footer">
+<p>Displaying data through effective visualization: Bar bar charts (for continuous data)</p>
+</div>
+</section>
+<section id="dots-for-data-operative-overplotting" class="slide level2">
+<h2>Dots for data (operative overplotting)</h2>
+<div class="panel-tabset">
+<ul id="tabset-5" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-5-1">Code</a></li><li><a href="#tabset-5-2">Output</a></li></ul>
+<div class="tab-content">
+<div id="tabset-5-1">
+<div class="cell">
+
+</div>
+</div>
+<div id="tabset-5-2">
+<div class="cell">
+<div class="cell-output-display">
+<p><img data-src="arcas-workshop-good-stat-practice_files/figure-revealjs/unnamed-chunk-10-1.png" width="960"></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="this-is-a-slight-improvement" class="slide level2">
+<h2>This is a slight improvement</h2>
+<div class="panel-tabset">
+<ul id="tabset-6" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-6-1">Code</a></li><li><a href="#tabset-6-2">Output</a></li></ul>
+<div class="tab-content">
+<div id="tabset-6-1">
+<div class="cell">
+
+</div>
+</div>
+<div id="tabset-6-2">
+<div class="cell">
+<div class="cell-output-display">
+<p><img data-src="arcas-workshop-good-stat-practice_files/figure-revealjs/unnamed-chunk-12-1.png" width="960"></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="footer">
+<p>Displaying data through effective visualization: Dots for data (operative overplotting)</p>
+</div>
+</section>
+<section id="getting-better" class="slide level2">
+<h2>Getting better</h2>
+<div class="panel-tabset">
+<ul id="tabset-7" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-7-1">Code</a></li><li><a href="#tabset-7-2">Output</a></li></ul>
+<div class="tab-content">
+<div id="tabset-7-1">
+<div class="cell">
+
+</div>
+</div>
+<div id="tabset-7-2">
+<div class="cell">
+<div class="cell-output-display">
+<p><img data-src="arcas-workshop-good-stat-practice_files/figure-revealjs/unnamed-chunk-14-1.png" width="960"></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="footer">
+<p>Displaying data through effective visualization: Dots for data (operative overplotting)</p>
+</div>
+</section>
+<section id="this-is-very-effective" class="slide level2">
+<h2>This is very effective</h2>
+<div class="panel-tabset">
+<ul id="tabset-8" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-8-1">Code</a></li><li><a href="#tabset-8-2">Output</a></li></ul>
+<div class="tab-content">
+<div id="tabset-8-1">
+<div class="cell">
+
+</div>
+</div>
+<div id="tabset-8-2">
+<div class="cell">
+<div class="cell-output-display">
+<p><img data-src="arcas-workshop-good-stat-practice_files/figure-revealjs/unnamed-chunk-16-1.png" width="960"></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="footer">
+<p>Displaying data through effective visualization: Dots for data (operative overplotting)</p>
 </div>
 <div class="footer footer-default">
 

@@ -35,11 +35,16 @@ ggplot(data, aes(x = group, y = data_col)) +
 # additional emphasis on median
 ggplot(data, aes(x = group, y = data_col)) +
   ggbeeswarm::geom_quasirandom(width = 0.3, varwidth = TRUE, alpha = 0.2, size = 1.8) +
-  stat_summary(fun = median, fun.min = median, fun.max = median, geom = "crossbar",
-               width = 0.2, size = 1.5, fatten = 1, color = "black")
+  stat_summary(fun = median, 
+               fun.min = median, 
+               fun.max = median, 
+               geom = "crossbar",
+               width = 0.2, 
+               size = 1.5, 
+               fatten = 1, 
+               color = "black")
 
-# many other steps
-Add ticks on y axis
+# many other steps, Add ticks on y axis
 ggplot(data, aes(x = group, y = data_col)) +
   ggbeeswarm::geom_quasirandom(width = 0.3, varwidth = TRUE, alpha = 0.2, size = 1.8) +
   stat_summary(fun = median, fun.min = median, fun.max = median, geom = "crossbar",
@@ -47,33 +52,31 @@ ggplot(data, aes(x = group, y = data_col)) +
   scale_x_discrete(name = NULL, labels = c("a", "b", "c", "d")) +
   scale_y_continuous(name = "Biomarker 1 [ng/ml]", limits = c(0, 7), breaks = seq(0, 7))
 
-# box plot evolution
+# box plot evolution --------------------------------------
 
 #1. Box plot only
 ggplot(data, aes(x = group, y = data_col)) +
-  geom_boxplot(width = 0.2)
+  geom_boxplot() +
+  theme_minimal(base_size = 12)
 
 #2. Box plot with unjittered dot plot
 ggplot(data, aes(x = group, y = data_col)) +
-  geom_boxplot(width = 0.2) +
-  geom_point()
-
-#2.1 start with known dot plot result from previous section (1.5)
-ggplot(data, aes(x = group, y = data_col)) +
-  ggbeeswarm::geom_quasirandom(width = 0.2, varwidth = TRUE, size = 1.8)
+  geom_boxplot() +
+  geom_point()  +
+  theme_minimal(base_size = 12)
 
 #2.2 add boxplot
 ggplot(data, aes(x = group, y = data_col)) +
-  geom_boxplot(width = 0.2) +
-  ggbeeswarm::geom_quasirandom(width = 0.2, varwidth = TRUE, size = 1.8)
-
+  geom_boxplot() +
+  ggbeeswarm::geom_quasirandom() +
+  theme_minimal(base_size = 12)
 
 #2.6 remove duplicate outliers
 ggplot(data, aes(x = group, y = data_col)) +
-  geom_boxplot(varwidth = TRUE, lwd = 0.6, outlier.shape = NA) +
-  ggbeeswarm::geom_quasirandom(width = 0.2, varwidth = TRUE, size = 1.8, alpha = 0.2) +
-  stat_summary(fun = median, fun.min = median, fun.max = median, geom = "crossbar",
-               width = 0.2, size = 1.8, fatten = 1, color = "red")
+  geom_boxplot(varwidth = TRUE, 
+               outlier.shape = NA) +
+  ggbeeswarm::geom_quasirandom(alpha = 0.2, size = 3) +
+  theme_minimal(base_size = 12)
 
 
 

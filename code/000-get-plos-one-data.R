@@ -58,7 +58,8 @@ saveRDS(plos_archaeology_full_text_ps,
 
 # load it
 library(tidyverse)
-plos_archaeology_full_text_ps <- readRDS("analysis/data/plos_archaeology_data.rds")
+plos_archaeology_full_text_ps <- 
+  readRDS("data/plos_archaeology_data.rds")
 
 # take a look at how tests are reported by grabbing the text immediately before the
 # p-values, we don't need this for later, it can be skipped
@@ -108,5 +109,10 @@ plos_archaeology_full_text_ps_clean <-
   )) 
 
 # take a look and browse the table
-plos_archaeology_full_text_ps_lite <- 
+plos_archaeology_p_values_only <- 
   plos_archaeology_full_text_ps_clean 
+
+# save this so we don't have to clean again
+write.csv(plos_archaeology_p_values_only,
+        "data/plos_archaeology_p_values_only.csv")
+
