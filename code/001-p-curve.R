@@ -121,6 +121,7 @@ plos_archaeology_full_text_ps_clean_group_anova %>%
 
 # end of PLOS --------------------------------------------------------
 
+# JAS data
 
 # how about change over time?
 library(ggbeeswarm)

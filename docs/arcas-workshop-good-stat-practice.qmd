@@ -534,7 +534,7 @@ Fraser H, Parker T, Nakagawa S, Barnett A, Fidler F (2018) Questionable research
 
 ::: incremental
 -   Downloaded the full text of 5000 journal articles
--   Extracted from the full text all p-values
+-   Extracted 7,668 p-values from the full text
 -   Examined the distribution of p-values around thresholds (e.g. 0.05) for p-hacking
 -   Used the caliper test to compared the number of observations just below and just above the significance threshold
 :::
@@ -565,7 +565,7 @@ Sound reporting of statistical significance tests: Evidence from 5000 articles f
 ::: incremental
 ::: r-fit-text
 -   Downloaded the full text of 3000 archaeology articles from PLOS One
--   Used the [statcheck](https://mbnuijten.com/statcheck/) R package to extract statistical results from the full text and recalculate p-values based on reported test statistics and their degrees of freedom
+-   Used the [statcheck](https://mbnuijten.com/statcheck/) R package to extract 587 statistical results from the full text and recalculate p-values based on reported test statistics and their degrees of freedom
 -   Compared the reported and recalculated p-values
 -   Identified _minor inconsistencies_ (differences between reported and recalculated p-values) and _gross inconsistencies_ (where the recalculated p-value changed the statistical conclusion, assuming α = 0.05)
 :::
@@ -581,7 +581,7 @@ Baker, M. Stat-checking software stirs up psychology. Nature 540, 151–152 (201
 
 ---
 
-Found 148 APA-formatted statistical tests, 88 with minor inconsistencies (in 34 articles) and 28 gross inconsistencies (in 10 articles)
+Found 587 APA-formatted statistical tests, 88 with minor inconsistencies (in 34 articles) and 28 gross inconsistencies (in 10 articles)
 
 ![](plos_archaeology_statcheck_results.png){fig-align="center"} 
 
