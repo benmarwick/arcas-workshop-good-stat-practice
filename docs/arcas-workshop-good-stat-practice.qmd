@@ -18,7 +18,7 @@ editor: visual
 -   Research compendia for comprehensive communication
 :::
 
-------------------------------------------------------------------------
+---
 
 ![](data-info-knowl-wisdom.png)
 
@@ -26,9 +26,7 @@ editor: visual
 Page, S. E. (2018). The model thinker: What you need to know to make data work for you. Basic Books.
 :::
 
-------------------------------------------------------------------------
-
-# Displaying data through effective visualization
+# Displaying data through effective visualization {data-background-color=black}
 
 ## Displaying data through effective visualization
 
@@ -105,7 +103,6 @@ ggsave("three_pies.png")
 Displaying data through effective visualization: Purge pie charts (from your work)
 :::
 
-------------------------------------------------------------------------
 
 ## Now, let's represent exactly the same data using a barplot:
 
@@ -503,7 +500,7 @@ box_plot_simple_points_quasi_alpha
 Displaying data through effective visualization: Dots for data (operative overplotting)
 :::
 
-# Sound reporting of statistical significance tests
+# Sound reporting of statistical significance tests {data-background-color=black}
 
 ## Sound reporting of statistical significance tests
 
@@ -669,7 +666,7 @@ Sound reporting of statistical significance tests
 -   Write your articles in [Quarto](https://quarto.org/) using Markdown or LaTeX to take full advantage of the auto-formatting functions
 :::
 
-# Research compendia for comprehensive communication
+# Research compendia for comprehensive communication {data-background-color=black}
 
 ---
 
@@ -732,6 +729,7 @@ Research compendia for comprehensive communication
 -   Displaying data through effective visualization
 -   Sound reporting of statistical significance tests
 -   Research compendia for comprehensive communication
+-   Slides, code and data online at [github.com/benmarwick/arcas-workshop-good-stat-practice](https://github.com/benmarwick/arcas-workshop-good-stat-practice])
 
 
 
