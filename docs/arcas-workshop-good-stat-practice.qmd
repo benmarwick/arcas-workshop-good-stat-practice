@@ -671,11 +671,67 @@ Sound reporting of statistical significance tests
 
 # Research compendia for comprehensive communication
 
+---
+
+![](quarto-schematic.png){fig-align="center"} 
+
+::: footer 
+Research compendia for comprehensive communication
+:::
+
 ## Research compendia for comprehensive communication
 
+::: incremental
+-   Quarto is a free and open-source multi-language scientific and technical publishing system
+-   Write documents that weave together plain text, R and Python code, equations, citations, cross references, figures and captions
+-   Render your document into presentations, websites, blogs, and books in HTML, PDF, MS Word formats
+:::
+
+---
+
+![](jas-quarto-highlights.png){fig-align="center"} 
+---
+
+![](Giacomo Screen Shot.png){fig-align="center"} 
+
+::: footer 
+Research compendia for comprehensive communication
+:::
+
+--- 
+
+![](zenodo-Giacomo-Arch-Polygonal_Masonry-Polygonal-Masonry.png){fig-align="center"} 
 
 
+::: footer 
+Research compendia for comprehensive communication
+:::
 
+---
+
+![](compendium-examples-tas.png){fig-align="center"} 
+
+## The [rrtools](https://github.com/benmarwick/rrtools) package makes it easy to create a research compendium
+
+::: {layout-ncol=2}
+
+![](rrtools Screen Shot.png){fig-align="center"} 
+
+![](rrtools file structure.png){fig-align="center"} 
+
+:::
+
+::: footer 
+Research compendia for comprehensive communication
+:::
+
+
+## Summary
+
+
+-   Displaying data through effective visualization
+-   Sound reporting of statistical significance tests
+-   Research compendia for comprehensive communication
 
 
 
