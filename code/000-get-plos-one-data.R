@@ -12,7 +12,7 @@ library(rvest)
 plos_archaeology <- searchplos(q='everything:"archaeology"', 
                                fl=c('title', 'id', 'accepted_date'), 
                                fq='doc_type:full',
-                               limit = 1000)
+                               limit = 5000)
 
 # get full text of articles at those DOIs, this takes a long time
 
@@ -45,21 +45,15 @@ for(i in 1:nrow(plos_archaeology_urls)){
   
 }
 
+# save this so we don't have to scrape again
+saveRDS(plos_archaeology$data,
+        "data/plos_archaeology_data.rds")
 
 # get p-values from the full text of these articles, takes a minute
 plos_archaeology_full_text_ps <- 
   plos_archaeology$data %>% 
   mutate(ps = map(full_text, ~unlist(str_extract_all(.x, "p = .{6}|p < .{6}|p > .{6}")))) %>% 
   unnest_legacy(ps) 
-
-# save this so we don't have to scrape again
-saveRDS(plos_archaeology_full_text_ps,
-        "analysis/data/plos_archaeology_data.rds")
-
-# load it
-library(tidyverse)
-plos_archaeology_full_text_ps <- 
-  readRDS("data/plos_archaeology_data.rds")
 
 # take a look at how tests are reported by grabbing the text immediately before the
 # p-values, we don't need this for later, it can be skipped

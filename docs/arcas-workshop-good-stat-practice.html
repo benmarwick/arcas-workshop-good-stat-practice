@@ -417,14 +417,21 @@ Ben Marwick
 <p>Page, S. E. (2018). The model thinker: What you need to know to make data work for you. Basic Books.</p>
 </div>
 </section>
-<section id="displaying-data-through-effective-visualization" class="slide level2">
+<section class="slide level2">
+
+</section>
+<section>
+<section id="displaying-data-through-effective-visualization" class="title-slide slide level1 center">
+<h1>Displaying data through effective visualization</h1>
+
+</section>
+<section id="displaying-data-through-effective-visualization-1" class="slide level2">
 <h2>Displaying data through effective visualization</h2>
 <div>
 <ul>
 <li class="fragment">Purge pie charts (from your work)</li>
 <li class="fragment">Bar bar charts (for continuous data)</li>
 <li class="fragment">Dots for data (operative overplotting)</li>
-<li class="fragment">Lines link continuous data (not discrete)</li>
 </ul>
 </div>
 </section>
@@ -863,8 +870,8 @@ Ben Marwick
 <p>Displaying data through effective visualization: Dots for data (operative overplotting)</p>
 </div>
 </section>
-<section id="this-is-very-effective" class="slide level2">
-<h2>This is very effective</h2>
+<section id="this-is-highly-effective" class="slide level2">
+<h2>This is highly effective</h2>
 <div class="panel-tabset">
 <ul id="tabset-8" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-8-1">Code</a></li><li><a href="#tabset-8-2">Output</a></li></ul>
 <div class="tab-content">
@@ -893,10 +900,195 @@ Ben Marwick
 <div class="footer">
 <p>Displaying data through effective visualization: Dots for data (operative overplotting)</p>
 </div>
+</section></section>
+<section>
+<section id="sound-reporting-of-statistical-significance-tests" class="title-slide slide level1 center">
+<h1>Sound reporting of statistical significance tests</h1>
+
+</section>
+<section id="sound-reporting-of-statistical-significance-tests-1" class="slide level2">
+<h2>Sound reporting of statistical significance tests</h2>
+<div>
+<ul>
+<li class="fragment">Statistical significance tests guide us in making decisions about our claims</li>
+<li class="fragment">p-values were designed to help us identify surprising results from a noisy data generation process (aka the real world).</li>
+<li class="fragment">p-values do not quantify the probability that a hypothesis is true.</li>
+<li class="fragment">A p-value is the probability of the observed <strong>data</strong>, or more extreme <strong>data</strong>, under the assumption that the null hypothesis is true.</li>
+<li class="fragment">Effective inference from p-values requires full reporting and transparency.</li>
+</ul>
+</div>
+</section>
+<section id="do-archaeologists-engage-in-questionable-research-practices" class="slide level2">
+<h2>Do archaeologists engage in questionable research practices?</h2>
+<div class="r-fit-text">
+<ul>
+<li><strong>HARKing</strong>: Hypothesizing After the Results are Known: presenting ad hoc and/or unexpected findings as though they had been predicted all along; and presenting exploratory work as though it was confirmatory hypothesis testing</li>
+<li><strong>Cherry picking</strong>: failing to report dependent or response variables or relationships that did not reach statistical significance or other threshold</li>
+<li><strong>p-hacking</strong>: checking the statistical significance of results before deciding whether to collect more data; deciding whether to exclude data points only after checking the impact on statistical significance and not reporting the impact of the data exclusion; adjusting statistical models, for instance by including or excluding covariates based on the resulting strength of the main effect of interest; and rounding of a p value to meet a statistical significance threshold (e.g., presenting 0.053 as p &lt; .05).</li>
+</ul>
+</div>
+<div class="footer">
+<p>Fraser H, Parker T, Nakagawa S, Barnett A, Fidler F (2018) Questionable research practices in ecology and evolution. PLOS ONE 13(7): e0200303. https://doi.org/10.1371/journal.pone.0200303</p>
+</div>
+</section>
+<section id="detecting-qrps-evidence-from-5000-articles-from-the-journal-of-archaeological-science" class="slide level2">
+<h2>Detecting QRPs: Evidence from 5000 articles from the <em>Journal of Archaeological Science</em></h2>
+<div>
+<ul>
+<li class="fragment">Downloaded the full text of 5000 journal articles</li>
+<li class="fragment">Extracted from the full text all p-values</li>
+<li class="fragment">Examined the distribution of p-values around thresholds (e.g.&nbsp;0.05) for p-hacking</li>
+<li class="fragment">Used the caliper test to compared the number of observations just below and just above the significance threshold</li>
+</ul>
+</div>
+</section>
+<section class="slide level2">
+
+<p>Strong evidence for publication bias</p>
+
+<img data-src="jas_p_value_distribution.png" class="r-stretch"><div class="footer">
+<p>Sound reporting of statistical significance tests: Evidence from 5000 articles from the <em>Journal of Archaeological Science</em></p>
+</div>
+</section>
+<section class="slide level2">
+
+<p>Caliper test indicates a bump in p-values just below the threshold of 0.05: p-hacking is occurring</p>
+
+<img data-src="jas_p_value_caliper_test.png" class="r-stretch"><div class="footer">
+<p>Sound reporting of statistical significance tests: Evidence from 5000 articles from the <em>Journal of Archaeological Science</em></p>
+</div>
+</section>
+<section id="how-prevalent-are-errors-in-reporting-statistical-significance-tests-in-archaeology" class="slide level2">
+<h2>How prevalent are errors in reporting statistical significance tests in archaeology?</h2>
+<div>
+<ul>
+<li class="fragment">Downloaded the full text of 3000 archaeology articles from PLOS One</li>
+<li class="fragment">Used the <a href="https://mbnuijten.com/statcheck/">statcheck</a> R package to extract statistical results from the full text and recalculate p-values based on reported test statistics and their degrees of freedom</li>
+<li class="fragment">Compared the reported and recalculated p-values</li>
+<li class="fragment">Identified <em>minor inconsistencies</em> (differences between reported and recalculated p-values) and <em>gross inconsistencies</em> (where the recalculated p-value changed the statistical conclusion, assuming α = 0.05)</li>
+</ul>
+</div>
+</section>
+<section class="slide level2">
+
+
+<img data-src="statcheck-apa.png" class="r-stretch quarto-figure-center"><div class="footer">
+<p>Baker, M. Stat-checking software stirs up psychology. Nature 540, 151–152 (2016). https://doi.org/10.1038/540151a</p>
+</div>
+</section>
+<section class="slide level2">
+
+<p>Found 148 APA-formatted statistical tests, 88 with minor inconsistencies (in 34 articles) and 28 gross inconsistencies (in 10 articles)</p>
+
+<img data-src="plos_archaeology_statcheck_results.png" class="r-stretch quarto-figure-center"><div class="footer">
+<p>Sound reporting of statistical significance tests: Evidence from 3000 articles from <em>PLOS One</em></p>
+</div>
+</section>
+<section class="slide level2">
+
+<p>This article had several gross inconsistencies</p>
+
+<img data-src="Assessing-Human-Diet-and-Movement-in-the-Tongan-Maritime-Chiefdom-Using-Isotopic-Analyses.png" class="r-stretch quarto-figure-center"><div class="footer">
+<p>Sound reporting of statistical significance tests: Evidence from 3000 articles from <em>PLOS One</em></p>
+</div>
+</section>
+<section id="the-lead-author-has-some-important-recommendations-to-help-us-avoid-this" class="slide level2">
+<h2>The lead author has some important recommendations to help us avoid this</h2>
+
+<img data-src="email.png" class="r-stretch quarto-figure-center"><div class="footer">
+<p>Sound reporting of statistical significance tests: Evidence from 5000 articles from <em>PLOS One</em></p>
+</div>
+</section>
+<section id="sound-reporting-of-statistical-significance-tests-how-to-minmise-reporting-errors" class="slide level2">
+<h2>Sound reporting of statistical significance tests: how to minmise reporting errors?</h2>
+<div class="panel-tabset">
+<ul id="tabset-9" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-9-1">Raw console output</a></li><li><a href="#tabset-9-2">Auto-formatted output</a></li></ul>
+<div class="tab-content">
+<div id="tabset-9-1">
+<div class="cell">
+
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="fu">chisq.test</span>(lego.table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pearson's Chi-squared test with Yates' continuity correction
+
+data:  lego.table
+X-squared = 11.864, df = 1, p-value = 0.0005724</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-9-2">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>apastats<span class="sc">::</span><span class="fu">describe.chi</span>(lego.table, <span class="at">addN =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "$\\chi^2$(1, _N_ = 100) = 11.86, _p_ &lt; .001, _V_ = .34"</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="footer">
+<p>Sound reporting of statistical significance tests</p>
+</div>
+</section>
+<section id="sound-reporting-of-statistical-significance-tests-how-to-minmise-reporting-errors-1" class="slide level2">
+<h2>Sound reporting of statistical significance tests: how to minmise reporting errors?</h2>
+<div class="panel-tabset">
+<ul id="tabset-10" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-10-1">Raw console output</a></li><li><a href="#tabset-10-2">Auto-formatted output</a></li></ul>
+<div class="tab-content">
+<div id="tabset-10-1">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>anova_mpg <span class="ot">&lt;-</span> car<span class="sc">::</span><span class="fu">Anova</span>(<span class="fu">lm</span>(mpg <span class="sc">~</span> am, <span class="at">data =</span> mtcars))</span>
+<span id="cb14-2"><a href="#cb14-2"></a>anova_mpg</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Anova Table (Type II tests)
+
+Response: mpg
+          Sum Sq Df F value   Pr(&gt;F)    
+am        405.15  1   16.86 0.000285 ***
+Residuals 720.90 30                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-10-2">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>apastats<span class="sc">::</span><span class="fu">describe.Anova</span>(anova_mpg, <span class="at">term =</span> <span class="st">"am"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "_F_(1, 30) = 16.86, _p_ &lt; .001"</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="footer">
+<p>Sound reporting of statistical significance tests</p>
+</div>
+</section>
+<section id="tools-to-help" class="slide level2">
+<h2>Tools to help</h2>
+<div>
+<ul>
+<li class="fragment">Read ‘<a href="https://benwhalley.github.io/just-enough-r/apa-output.html">APA formatting for free</a>’ in <em>Just Enough R</em> by Ben Whalley</li>
+<li class="fragment">Use auto-formatting functions in R packages <a href="https://github.com/achetverikov/APAstats">APAstats</a>, <a href="https://github.com/dgromer/apa">apa</a>, and <a href="https://github.com/crsh/papaja">papaja</a></li>
+<li class="fragment">Write your articles in Quarto using Markdown or LaTeX to take full advantage of the auto-formatting functions</li>
+</ul>
+</div>
+</section></section>
+<section>
+<section id="research-compendia-for-comprehensive-communication" class="title-slide slide level1 center">
+<h1>Research compendia for comprehensive communication</h1>
+
+</section>
+<section id="research-compendia-for-comprehensive-communication-1" class="slide level2">
+<h2>Research compendia for comprehensive communication</h2>
 <div class="footer footer-default">
 
 </div>
-</section>
+</section></section>
     </div>
   </div>
 

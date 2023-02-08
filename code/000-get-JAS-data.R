@@ -47,7 +47,7 @@ ft_df <-
 saveRDS(ft_df,
         "analysis/data/full_text_jas.rds")
 
-ft_df <- readRDS("analysis/data/full_text_jas.rds")
+ft_df <- readRDS("data/full_text_jas.rds")
 
 # is everything ok in there?
 ft_df %>% 
@@ -55,8 +55,6 @@ ft_df %>%
   ggplot() +
   aes(nchars) +
   geom_histogram()
-
-
 
 ft_df_clean <- 
   ft_df %>% 
@@ -70,6 +68,12 @@ ft_df_clean <-
                                           "p *= .{6}|p *< .{6}|p *> .{6}"))))  %>% 
   unnest(ps)
 
+
+# is the p-value reported exactly or with an inequi?
+ft_df_clean_reporting <- 
+ft_df_clean %>% 
+  mutate(reporting = ifelse(str_detect(ps, "<|>"), "inequ", "exact"))
+
 # take a look at how tests are reported by grabbing the text immediately before the
 # p-values
 jas_archaeology_full_text_ps_test_reporting <- 
@@ -80,7 +84,7 @@ jas_archaeology_full_text_ps_test_reporting <-
 
 # clean the p-values and treat inqualitites
 ft_df_ps_clean <- 
-  ft_df_clean %>% 
+  ft_df_clean_reporting %>% 
   mutate(p_value = case_when(
     str_detect(ps, "e")       ~  0.00001,
     str_detect(ps, "<0.0001") ~  0.00005,
@@ -94,6 +98,10 @@ ft_df_ps_clean <-
     TRUE ~ parse_number(ps)
   ))  %>% 
   select(-full_text_jas)
+
+# save this so we don't have to clean again
+write.csv(ft_df_ps_clean,
+          "data/jas_p_values_only.csv")
 
 # how many p-values per paper?
 p_values_per_paper <- 
