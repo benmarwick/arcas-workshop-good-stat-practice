@@ -93,7 +93,8 @@ ggplot(ft_df_ps_clean_zoom_plot_data) +
             xend = 0.05,
             y = 0,
             yend = 120,
-             colour = "red") +
+             colour = "red",
+            size = 2) +
   xlim(0.03, 0.07) +
   ylim(0, 150) +
   theme_minimal() +

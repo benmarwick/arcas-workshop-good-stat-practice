@@ -403,17 +403,19 @@ Ben Marwick
 <section id="outline" class="slide level2">
 <h2>Outline</h2>
 <div>
+<div class="r-fit-text">
 <ul>
 <li class="fragment">Displaying data through effective visualization</li>
 <li class="fragment">Sound reporting of statistical significance tests</li>
 <li class="fragment">Research compendia for comprehensive communication</li>
 </ul>
 </div>
+</div>
 </section>
 <section class="slide level2">
 
 
-<img data-src="data-info-knowl-wisdom.png" class="r-stretch"><div class="footer">
+<img data-src="data-info-knowl-wisdom.png" class="r-stretch quarto-figure-center"><div class="footer">
 <p>Page, S. E. (2018). The model thinker: What you need to know to make data work for you. Basic Books.</p>
 </div>
 </section>
@@ -546,14 +548,14 @@ Ben Marwick
 <section id="purge-pie-charts-because" class="slide level2">
 <h2>Purge pie charts because…</h2>
 
-<img data-src="heer-and-bostock-2010.png" class="r-stretch"><div class="footer">
+<img data-src="heer-and-bostock-2010.png" class="r-stretch quarto-figure-center"><div class="footer">
 <p>Heer, J., &amp; Bostock, M. (2010, April). Crowdsourcing graphical perception: using mechanical turk to assess visualization design. In <em>Proceedings of the SIGCHI conference on human factors in computing systems</em> (pp.&nbsp;203-212).</p>
 </div>
 </section>
 <section id="purge-pie-charts-because-1" class="slide level2">
 <h2>Purge pie charts because…</h2>
 
-<img data-src="healy-ch-01-cleveland-task-types.png" class="r-stretch"><div class="footer">
+<img data-src="healy-ch-01-cleveland-task-types.png" class="r-stretch quarto-figure-center"><div class="footer">
 <p>Healy, Kieran. 2018. <em>Data Visualization: A Practical Introduction</em>. Princeton University Press. https://socviz.co/</p>
 </div>
 </section>
@@ -595,35 +597,37 @@ Ben Marwick
 <span id="cb4-29"><a href="#cb4-29"></a>               <span class="at">width =</span> <span class="fl">0.3</span>, </span>
 <span id="cb4-30"><a href="#cb4-30"></a>               <span class="at">size =</span> <span class="fl">1.1</span>)  <span class="sc">+</span></span>
 <span id="cb4-31"><a href="#cb4-31"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> id, <span class="at">nrow =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb4-32"><a href="#cb4-32"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span>
-<span id="cb4-33"><a href="#cb4-33"></a></span>
-<span id="cb4-34"><a href="#cb4-34"></a><span class="co"># statistical text</span></span>
-<span id="cb4-35"><a href="#cb4-35"></a>plot_data_stat_test <span class="ot">&lt;-</span> </span>
-<span id="cb4-36"><a href="#cb4-36"></a>  plot_data <span class="sc">%&gt;%</span> </span>
-<span id="cb4-37"><a href="#cb4-37"></a>  <span class="fu">nest</span>(<span class="at">data =</span> <span class="sc">-</span>id) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-38"><a href="#cb4-38"></a>  <span class="fu">mutate</span>(<span class="at">t_test =</span> <span class="fu">map</span>(data, <span class="sc">~</span><span class="fu">t.test</span>(y <span class="sc">~</span> x, .x) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-39"><a href="#cb4-39"></a>                        broom<span class="sc">::</span><span class="fu">tidy</span>() </span>
-<span id="cb4-40"><a href="#cb4-40"></a>  )) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-41"><a href="#cb4-41"></a>  <span class="fu">unnest</span>(t_test)</span>
-<span id="cb4-42"><a href="#cb4-42"></a></span>
-<span id="cb4-43"><a href="#cb4-43"></a><span class="co"># join stat test to data to show on plots</span></span>
-<span id="cb4-44"><a href="#cb4-44"></a>plot_data_and_stats <span class="ot">&lt;-</span> </span>
-<span id="cb4-45"><a href="#cb4-45"></a><span class="fu">left_join</span>(plot_data,</span>
-<span id="cb4-46"><a href="#cb4-46"></a>          plot_data_stat_test) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-47"><a href="#cb4-47"></a>  <span class="fu">mutate</span>(<span class="at">id1 =</span> <span class="fu">paste0</span>(id, <span class="st">" (p = "</span>, <span class="fu">round</span>(p.value, <span class="dv">3</span>), <span class="st">")"</span>))</span>
-<span id="cb4-48"><a href="#cb4-48"></a></span>
-<span id="cb4-49"><a href="#cb4-49"></a><span class="co"># plot</span></span>
-<span id="cb4-50"><a href="#cb4-50"></a>plot_data_and_stats_beeswarm <span class="ot">&lt;-</span> </span>
-<span id="cb4-51"><a href="#cb4-51"></a><span class="fu">ggplot</span>(plot_data_and_stats) <span class="sc">+</span></span>
-<span id="cb4-52"><a href="#cb4-52"></a>  <span class="fu">aes</span>(x, </span>
-<span id="cb4-53"><a href="#cb4-53"></a>      y) <span class="sc">+</span></span>
-<span id="cb4-54"><a href="#cb4-54"></a>  <span class="fu">geom_beeswarm</span>(<span class="at">cex =</span> <span class="dv">10</span>,</span>
-<span id="cb4-55"><a href="#cb4-55"></a>                <span class="at">size =</span> <span class="dv">3</span>,</span>
-<span id="cb4-56"><a href="#cb4-56"></a>                <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
-<span id="cb4-57"><a href="#cb4-57"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> id1, <span class="at">nrow =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb4-58"><a href="#cb4-58"></a>  <span class="fu">xlab</span>(<span class="st">""</span>) <span class="sc">+</span></span>
-<span id="cb4-59"><a href="#cb4-59"></a>  <span class="fu">ylab</span>(<span class="st">""</span>) <span class="sc">+</span></span>
-<span id="cb4-60"><a href="#cb4-60"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-32"><a href="#cb4-32"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>) <span class="sc">+</span></span>
+<span id="cb4-33"><a href="#cb4-33"></a>    <span class="fu">xlab</span>(<span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb4-34"><a href="#cb4-34"></a>    <span class="fu">ylab</span>(<span class="st">""</span>)</span>
+<span id="cb4-35"><a href="#cb4-35"></a></span>
+<span id="cb4-36"><a href="#cb4-36"></a><span class="co"># statistical text</span></span>
+<span id="cb4-37"><a href="#cb4-37"></a>plot_data_stat_test <span class="ot">&lt;-</span> </span>
+<span id="cb4-38"><a href="#cb4-38"></a>  plot_data <span class="sc">%&gt;%</span> </span>
+<span id="cb4-39"><a href="#cb4-39"></a>  <span class="fu">nest</span>(<span class="at">data =</span> <span class="sc">-</span>id) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-40"><a href="#cb4-40"></a>  <span class="fu">mutate</span>(<span class="at">t_test =</span> <span class="fu">map</span>(data, <span class="sc">~</span><span class="fu">t.test</span>(y <span class="sc">~</span> x, .x) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-41"><a href="#cb4-41"></a>                        broom<span class="sc">::</span><span class="fu">tidy</span>() </span>
+<span id="cb4-42"><a href="#cb4-42"></a>  )) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-43"><a href="#cb4-43"></a>  <span class="fu">unnest</span>(t_test)</span>
+<span id="cb4-44"><a href="#cb4-44"></a></span>
+<span id="cb4-45"><a href="#cb4-45"></a><span class="co"># join stat test to data to show on plots</span></span>
+<span id="cb4-46"><a href="#cb4-46"></a>plot_data_and_stats <span class="ot">&lt;-</span> </span>
+<span id="cb4-47"><a href="#cb4-47"></a><span class="fu">left_join</span>(plot_data,</span>
+<span id="cb4-48"><a href="#cb4-48"></a>          plot_data_stat_test) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-49"><a href="#cb4-49"></a>  <span class="fu">mutate</span>(<span class="at">id1 =</span> <span class="fu">paste0</span>(id, <span class="st">" (p = "</span>, <span class="fu">round</span>(p.value, <span class="dv">3</span>), <span class="st">")"</span>))</span>
+<span id="cb4-50"><a href="#cb4-50"></a></span>
+<span id="cb4-51"><a href="#cb4-51"></a><span class="co"># plot</span></span>
+<span id="cb4-52"><a href="#cb4-52"></a>plot_data_and_stats_beeswarm <span class="ot">&lt;-</span> </span>
+<span id="cb4-53"><a href="#cb4-53"></a><span class="fu">ggplot</span>(plot_data_and_stats) <span class="sc">+</span></span>
+<span id="cb4-54"><a href="#cb4-54"></a>  <span class="fu">aes</span>(x, </span>
+<span id="cb4-55"><a href="#cb4-55"></a>      y) <span class="sc">+</span></span>
+<span id="cb4-56"><a href="#cb4-56"></a>  <span class="fu">geom_beeswarm</span>(<span class="at">cex =</span> <span class="dv">10</span>,</span>
+<span id="cb4-57"><a href="#cb4-57"></a>                <span class="at">size =</span> <span class="dv">3</span>,</span>
+<span id="cb4-58"><a href="#cb4-58"></a>                <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb4-59"><a href="#cb4-59"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> id1, <span class="at">nrow =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb4-60"><a href="#cb4-60"></a>  <span class="fu">xlab</span>(<span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb4-61"><a href="#cb4-61"></a>  <span class="fu">ylab</span>(<span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb4-62"><a href="#cb4-62"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-3-2">
@@ -906,6 +910,7 @@ Ben Marwick
 <section id="sound-reporting-of-statistical-significance-tests-1" class="slide level2">
 <h2>Sound reporting of statistical significance tests</h2>
 <div>
+<div class="r-fit-text">
 <ul>
 <li class="fragment">Statistical significance tests guide us in making decisions about our claims</li>
 <li class="fragment">p-values were designed to help us identify surprising results from a noisy data generation process (aka the real world).</li>
@@ -913,6 +918,7 @@ Ben Marwick
 <li class="fragment">A p-value is the probability of the observed <strong>data</strong>, or more extreme <strong>data</strong>, under the assumption that the null hypothesis is true.</li>
 <li class="fragment">Effective inference from p-values requires full reporting and transparency.</li>
 </ul>
+</div>
 </div>
 </section>
 <section id="do-archaeologists-engage-in-questionable-research-practices" class="slide level2">
@@ -958,12 +964,14 @@ Ben Marwick
 <section id="how-prevalent-are-errors-in-reporting-statistical-significance-tests-in-archaeology" class="slide level2">
 <h2>How prevalent are errors in reporting statistical significance tests in archaeology?</h2>
 <div>
+<div class="r-fit-text">
 <ul>
 <li class="fragment">Downloaded the full text of 3000 archaeology articles from PLOS One</li>
 <li class="fragment">Used the <a href="https://mbnuijten.com/statcheck/">statcheck</a> R package to extract statistical results from the full text and recalculate p-values based on reported test statistics and their degrees of freedom</li>
 <li class="fragment">Compared the reported and recalculated p-values</li>
 <li class="fragment">Identified <em>minor inconsistencies</em> (differences between reported and recalculated p-values) and <em>gross inconsistencies</em> (where the recalculated p-value changed the statistical conclusion, assuming α = 0.05)</li>
 </ul>
+</div>
 </div>
 </section>
 <section class="slide level2">
@@ -1149,7 +1157,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <li>Displaying data through effective visualization</li>
 <li>Sound reporting of statistical significance tests</li>
 <li>Research compendia for comprehensive communication</li>
-<li>Slides, code and data online at <a href="https://github.com/benmarwick/arcas-workshop-good-stat-practice%5D">github.com/benmarwick/arcas-workshop-good-stat-practice</a></li>
+<li>Please help yourself to the slides (written in Quarto), R code and data online at <a href="https://github.com/benmarwick/arcas-workshop-good-stat-practice%5D">github.com/benmarwick/arcas-workshop-good-stat-practice</a></li>
 </ul>
 <div class="footer footer-default">
 
