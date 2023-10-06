@@ -7,9 +7,9 @@ library(rscopus)
 options("elsevier_api_key" = "053e6f8f2c1abe6fcdc943ee66759e5e")
 have_api_key()
 
-# get a bunch of DOIs for J. Arch. Sci
-res = scopus_search(query = "ISSN(0305-4403)", 
-                    max_count = 5000, # Total Entries are 6114
+# get a bunch of DOIs for J. Arch. Sci Reports
+res = scopus_search(query = "ISSN(2352-409X)", 
+                    max_count = 6000, # Total Entries are 3906
                     count = 25)
 df = gen_entries_to_df(res$entries)
 head(df$df)
@@ -37,37 +37,38 @@ for(i in 1:nrow(df$df)){
   
 }
 
+library(tidyverse)
+
 ft_df <- 
   tibble(
     doi = df$df$`prism:doi`,
-    full_text_jas = full_text_jas
+    full_text_jasr = full_text_jas
   ) 
 
 # save this so we don't have to scrape again
 saveRDS(ft_df,
-        "data/full_text_jas.rds")
+        "data/full_text_jasr.rds")
 
-ft_df <- readRDS("data/full_text_jas.rds")
+ft_df <- readRDS("data/full_text_jasr.rds")
 
 # is everything ok in there?
 ft_df %>% 
-  mutate(nchars = map_int(full_text_jas, ~nchar(.x))) %>% 
+  mutate(nchars = map_int(full_text_jasr, ~nchar(.x))) %>% 
   ggplot() +
   aes(nchars) +
   geom_histogram()
 
 ft_df_clean <- 
   ft_df %>% 
-  filter(map_lgl(full_text_jas, ~ .x %>%
+  filter(map_lgl(full_text_jasr, ~ .x %>%
                    is.character %>% 
                    all)) %>% 
-  mutate(full_text_jas = map(full_text_jas, 
+  mutate(full_text_jasr = map(full_text_jasr, 
                              ~str_squish(str_to_lower(.x)))) %>% 
-  mutate(ps = map(full_text_jas, 
+  mutate(ps = map(full_text_jasr, 
                   ~unlist(str_extract_all(.x,
                                           "p *= .{6}|p *< .{6}|p *> .{6}"))))  %>% 
   unnest(ps)
-
 
 # is the p-value reported exactly or with an inequi?
 ft_df_clean_reporting <- 
@@ -76,11 +77,13 @@ ft_df_clean %>%
 
 # take a look at how tests are reported by grabbing the text immediately before the
 # p-values
-jas_archaeology_full_text_ps_test_reporting <- 
+jas_archaeology_reports_full_text_ps_test_reporting <- 
   ft_df %>% 
-  mutate(test_reports = map(full_text_jas, ~unlist(str_extract_all(str_squish(.x), ".{50}p = .{50}|.{50}p < .{50}|.{50}p > .{50}")))) %>% 
+  mutate(test_reports = map(full_text_jasr, 
+                            ~unlist(str_extract_all(str_squish(.x), 
+                            ".{50}p = .{50}|.{50}p < .{50}|.{50}p > .{50}")))) %>% 
   unnest(test_reports)  %>% 
-  select(-full_text_jas)
+  select(-full_text_jasr)
 
 # clean the p-values and treat inqualitites
 ft_df_ps_clean <- 
@@ -97,16 +100,17 @@ ft_df_ps_clean <-
     str_detect(ps, "<0.01") ~    0.005,
     TRUE ~ parse_number(ps)
   ))  %>% 
-  select(-full_text_jas)
+  select(-full_text_jasr)
 
 # save this so we don't have to clean again
 write.csv(ft_df_ps_clean,
-          "data/jas_p_values_only.csv")
+          "data/jasr_p_values_only.csv")
 
 # how many p-values per paper?
-ft_df_ps_clean %>% 
+
+  ft_df_ps_clean %>% 
   count(doi)  %>% 
-  ggplot() +
+ggplot() +
   aes(n) +
   geom_histogram() +
   scale_x_log10()

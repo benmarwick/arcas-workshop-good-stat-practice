@@ -20,15 +20,15 @@ editor: visual
 :::
 :::
 
----
+------------------------------------------------------------------------
 
-![](data-info-knowl-wisdom.png){fig-align="center"} 
+![](data-info-knowl-wisdom.png){fig-align="center"}
 
 ::: footer
 Page, S. E. (2018). The model thinker: What you need to know to make data work for you. Basic Books.
 :::
 
-# Displaying data through effective visualization {data-background-color=black}
+# Displaying data through effective visualization {data-background-color="black"}
 
 ## Displaying data through effective visualization
 
@@ -105,7 +105,6 @@ ggsave("three_pies.png")
 Displaying data through effective visualization: Purge pie charts (from your work)
 :::
 
-
 ## Now, let's represent exactly the same data using a barplot:
 
 ::: panel-tabset
@@ -153,7 +152,7 @@ Displaying data through effective visualization: Purge pie charts (from your wor
 
 ## Purge pie charts because...
 
-![](heer-and-bostock-2010.png){fig-align="center"} 
+![](heer-and-bostock-2010.png){fig-align="center"}
 
 ::: footer
 Heer, J., & Bostock, M. (2010, April). Crowdsourcing graphical perception: using mechanical turk to assess visualization design. In *Proceedings of the SIGCHI conference on human factors in computing systems* (pp. 203-212).
@@ -161,7 +160,7 @@ Heer, J., & Bostock, M. (2010, April). Crowdsourcing graphical perception: using
 
 ## Purge pie charts because...
 
-![](healy-ch-01-cleveland-task-types.png){fig-align="center"} 
+![](healy-ch-01-cleveland-task-types.png){fig-align="center"}
 
 ::: footer
 Healy, Kieran. 2018. *Data Visualization: A Practical Introduction*. Princeton University Press. https://socviz.co/
@@ -504,7 +503,7 @@ box_plot_simple_points_quasi_alpha
 Displaying data through effective visualization: Dots for data (operative overplotting)
 :::
 
-# Sound reporting of statistical significance tests {data-background-color=black}
+# Sound reporting of statistical significance tests {data-background-color="black"}
 
 ## Sound reporting of statistical significance tests
 
@@ -539,25 +538,24 @@ Fraser H, Parker T, Nakagawa S, Barnett A, Fidler F (2018) Questionable research
 -   Used the caliper test to compared the number of observations just below and just above the significance threshold
 :::
 
----
+------------------------------------------------------------------------
 
 Strong evidence for publication bias
 
-![](jas_p_value_distribution.png) 
+![](jas_p_value_distribution.png)
 
-::: footer 
-Sound reporting of statistical significance tests: Evidence from 5000 articles from the *Journal of Archaeological Science* 
+::: footer
+Sound reporting of statistical significance tests: Evidence from 5000 articles from the *Journal of Archaeological Science*
 :::
 
----
+------------------------------------------------------------------------
 
-Caliper test indicates a bump in p-values just below the threshold of 0.05: p-hacking is occurring 
+Caliper test indicates a bump in p-values just below the threshold of 0.05: p-hacking is occurring
 
 ![](jas_p_value_caliper_test.png)
 
-
-::: footer 
-Sound reporting of statistical significance tests: Evidence from 5000 articles from the *Journal of Archaeological Science* 
+::: footer
+Sound reporting of statistical significance tests: Evidence from 5000 articles from the *Journal of Archaeological Science*
 :::
 
 ## How prevalent are errors in reporting statistical significance tests in archaeology?
@@ -567,53 +565,51 @@ Sound reporting of statistical significance tests: Evidence from 5000 articles f
 -   Downloaded the full text of 3000 archaeology articles from PLOS One
 -   Used the [statcheck](https://mbnuijten.com/statcheck/) R package to extract 587 statistical results from the full text and recalculate p-values based on reported test statistics and their degrees of freedom
 -   Compared the reported and recalculated p-values
--   Identified _minor inconsistencies_ (differences between reported and recalculated p-values) and _gross inconsistencies_ (where the recalculated p-value changed the statistical conclusion, assuming α = 0.05)
+-   Identified *minor inconsistencies* (differences between reported and recalculated p-values) and *gross inconsistencies* (where the recalculated p-value changed the statistical conclusion, assuming α = 0.05)
 :::
 :::
 
----
+------------------------------------------------------------------------
 
-![](statcheck-apa.png){fig-align="center"} 
+![](statcheck-apa.png){fig-align="center"}
 
 ::: footer
-Baker, M. Stat-checking software stirs up psychology. Nature 540, 151–152 (2016). https://doi.org/10.1038/540151a
+Baker, M. Stat-checking software stirs up psychology. Nature 540, 151--152 (2016). https://doi.org/10.1038/540151a
 :::
 
----
+------------------------------------------------------------------------
 
 Found 587 APA-formatted statistical tests, 88 with minor inconsistencies (in 34 articles) and 28 gross inconsistencies (in 10 articles)
 
-![](plos_archaeology_statcheck_results.png){fig-align="center"} 
+![](plos_archaeology_statcheck_results.png){fig-align="center"}
 
-
-::: footer 
-Sound reporting of statistical significance tests: Evidence from 3000 articles from *PLOS One* 
+::: footer
+Sound reporting of statistical significance tests: Evidence from 3000 articles from *PLOS One*
 :::
 
----
+------------------------------------------------------------------------
 
 This article had several gross inconsistencies
 
-![](Assessing-Human-Diet-and-Movement-in-the-Tongan-Maritime-Chiefdom-Using-Isotopic-Analyses.png){fig-align="center"} 
+![](Assessing-Human-Diet-and-Movement-in-the-Tongan-Maritime-Chiefdom-Using-Isotopic-Analyses.png){fig-align="center"}
 
-::: footer 
-Sound reporting of statistical significance tests: Evidence from 3000 articles from *PLOS One* 
+::: footer
+Sound reporting of statistical significance tests: Evidence from 3000 articles from *PLOS One*
 :::
 
----
+------------------------------------------------------------------------
 
 ## The lead author has some important recommendations to help us avoid this
 
-![](email.png){fig-align="center"} 
+![](email.png){fig-align="center"}
 
-::: footer 
-Sound reporting of statistical significance tests: Evidence from 5000 articles from *PLOS One* 
+::: footer
+Sound reporting of statistical significance tests: Evidence from 5000 articles from *PLOS One*
 :::
 
 ## Sound reporting of statistical significance tests: how to minmise reporting errors?
 
 ::: panel-tabset
-
 ### Raw console output
 
 ```{r}
@@ -632,18 +628,15 @@ chisq.test(lego.table)
 #| echo: true
 apastats::describe.chi(lego.table, addN = T)
 ```
-
 :::
 
-::: footer 
+::: footer
 Sound reporting of statistical significance tests
 :::
-
 
 ## Sound reporting of statistical significance tests: how to minmise reporting errors?
 
 ::: panel-tabset
-
 ### Raw console output
 
 ```{r}
@@ -658,29 +651,27 @@ anova_mpg
 #| echo: true
 apastats::describe.Anova(anova_mpg, term = "am")
 ```
-
 :::
 
-::: footer 
+::: footer
 Sound reporting of statistical significance tests
 :::
-
 
 ## Tools to help
 
 ::: incremental
--   Read '[APA formatting for free](https://benwhalley.github.io/just-enough-r/apa-output.html)' in _Just Enough R_ by Ben Whalley
+-   Read '[APA formatting for free](https://benwhalley.github.io/just-enough-r/apa-output.html)' in *Just Enough R* by Ben Whalley
 -   Use auto-formatting functions in R packages [APAstats](https://github.com/achetverikov/APAstats), [apa](https://github.com/dgromer/apa), and [papaja](https://github.com/crsh/papaja)
 -   Write your articles in [Quarto](https://quarto.org/) using Markdown or LaTeX to take full advantage of the auto-formatting functions
 :::
 
-# Research compendia for comprehensive communication {data-background-color=black}
+# Research compendia for comprehensive communication {data-background-color="black"}
 
----
+------------------------------------------------------------------------
 
-![](quarto-schematic.png){fig-align="center"} 
+![](quarto-schematic.png){fig-align="center"}
 
-::: footer 
+::: footer
 Research compendia for comprehensive communication
 :::
 
@@ -692,52 +683,43 @@ Research compendia for comprehensive communication
 -   Render your document into presentations, websites, blogs, and books in HTML, PDF, MS Word formats
 :::
 
----
+------------------------------------------------------------------------
 
-![](jas-quarto-highlights.png){fig-align="center"} 
----
+## ![](jas-quarto-highlights.png){fig-align="center"}
 
-![](Giacomo Screen Shot.png){fig-align="center"} 
+![](Giacomo%20Screen%20Shot.png){fig-align="center"}
 
-::: footer 
+::: footer
 Research compendia for comprehensive communication
 :::
 
---- 
+------------------------------------------------------------------------
 
-![](zenodo-Giacomo-Arch-Polygonal_Masonry-Polygonal-Masonry.png){fig-align="center"} 
+![](zenodo-Giacomo-Arch-Polygonal_Masonry-Polygonal-Masonry.png){fig-align="center"}
 
-
-::: footer 
+::: footer
 Research compendia for comprehensive communication
 :::
 
----
+------------------------------------------------------------------------
 
-![](compendium-examples-tas.png){fig-align="center"} 
+![](compendium-examples-tas.png){fig-align="center"}
 
 ## The [rrtools](https://github.com/benmarwick/rrtools) package makes it easy to create a research compendium
 
-::: {layout-ncol=2}
+::: {layout-ncol="2"}
+![](rrtools%20Screen%20Shot.png){fig-align="center"}
 
-![](rrtools Screen Shot.png){fig-align="center"} 
-
-![](rrtools file structure.png){fig-align="center"} 
-
+![](rrtools%20file%20structure.png){fig-align="center"}
 :::
 
-::: footer 
+::: footer
 Research compendia for comprehensive communication
 :::
 
-
 ## Summary
-
 
 -   Displaying data through effective visualization
 -   Sound reporting of statistical significance tests
 -   Research compendia for comprehensive communication
 -   Please help yourself to the slides (written in Quarto), R code and data online at [github.com/benmarwick/arcas-workshop-good-stat-practice](https://github.com/benmarwick/arcas-workshop-good-stat-practice)
-
-
-
